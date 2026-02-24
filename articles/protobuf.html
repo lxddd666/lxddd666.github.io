@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protobuf编码详解 - JSON学习中心</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">JSON工具</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">JSON格式化</a></li>
+                <li><a href="../compress.html">图片压缩</a></li>
+                <li><a href="../convert.html">图片转换</a></li>
+                <li><a href="../m3u8.html">m3u8转MP4</a></li>
+                <li><a href="../help.html">帮助中心</a></li>
+                <li><a href="../about.html">关于</a></li>
+                <li><a href="../privacy.html">隐私政策</a></li>
+                <li><a href="../study.html" class="active">学习中心</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="tool-header">
+            <h1>Protobuf编码详解</h1>
+            <p>Protocol Buffers 二进制序列化协议</p>
+        </div>
+
+        <div class="tool-content">
+            <div class="article-content">
+                <h2>什么是Protobuf</h2>
+                <p>Protobuf（Protocol Buffers）是一种数据交换格式，又称PB编码，由Google开源。它类似于JSON、XML，但其内部是纯二进制格式，比JSON、XML等格式要更精炼。Protobuf主要用于数据的序列化和反序列化，目前官方提供了Java、Python、C++等多种语言的实现。</p>
+
+                <h2>为什么使用Protobuf</h2>
+                <ul>
+                    <li><strong>体积更小</strong> - 二进制格式，数据传输量更小</li>
+                    <li><strong>解析更快</strong> - 无需解析文本，直接读取二进制</li>
+                    <li><strong>跨语言</strong> - 支持多种编程语言</li>
+                    <li><strong>向后兼容</strong> - 支持字段可选和默认值</li>
+                </ul>
+
+                <h2>数据结构</h2>
+                <p>PB的数据结构是每项数据独立编码，包含一个表示数据类型wire_type和字段序号field_number的数据头，和对应的数据段内容。</p>
+                <div class="code-block">
+                    <code>HEAD1 + MSG1 + HEAD2 + MSG2 + ...</code>
+                </div>
+                <p>数据头中数据类型和字段序号的组合方式是：</p>
+                <div class="code-block">
+                    <code>(field_number << 3) | wire_type</code>
+                </div>
+
+                <h2>数据类型</h2>
+                <p>常见的数据类型wire_type为0和2：</p>
+                <ul>
+                    <li><strong>Varint类型（wire_type=0）</strong> - 一般用于int数据</li>
+                    <li><strong>Length-delimited类型（wire_type=2）</strong> - 通常用于字符串、数组等数据</li>
+                </ul>
+
+                <h2>Varint编码</h2>
+                <p>Varint是一种对数字进行编码的方法，将数字编码成不定长的二进制数据，数值越小，编码后的字节越少。</p>
+                <p><strong>编码规则：</strong></p>
+                <ul>
+                    <li>每个字节的最高位表示下一字节是否仍然是编码的内容</li>
+                    <li>若最高位为1，则下一字节仍然是编码的数字的一部分</li>
+                    <li>若该位为0，则编码到本字节结束</li>
+                    <li>每个字节的后7位，由小端表示的数字的二进制值组成</li>
+                </ul>
+
+                <p><strong>示例：</strong></p>
+                <div class="code-block">
+                    <code>数值345的Varint编码：0xD9 0x02</code><br><br>
+                    <code>数值176的Varint编码：0xB0 0x01</code><br><br>
+                    <code>数值24的Varint编码：0x18</code>
+                </div>
+
+                <h2>ZigZag编码</h2>
+                <p>在PB编码中，为了更高效地处理负数，使用了ZigZag编码，让所有的负数都使用正数表示：</p>
+                <div class="code-block">
+                    <code>sint32: (n << 1) ^ (n >> 31)</code><br>
+                    <code>sint64: (n << 1) ^ (n >> 63)</code>
+                </div>
+                <p>转换示例：</p>
+                <ul>
+                    <li>原始值0 → ZigZag值0</li>
+                    <li>原始值-1 → ZigZag值1</li>
+                    <li>原始值1 → ZigZag值2</li>
+                    <li>原始值-2 → ZigZag值3</li>
+                </ul>
+
+                <h2>Length-delimited编码</h2>
+                <p>Length-delimited对可变长度的数据进行编码，将长度和数据编码在一起，类似于TLV结构的LV部分。</p>
+                <p><strong>示例：</strong></p>
+                <p>字符串"xieyifenxi"的长度为10，编码为：</p>
+                <div class="code-block">
+                    <code>0x0a 78 69 65 79 69 66 65 6E 78 69</code>
+                </div>
+                <p>其中0x0a为长度值的Varint编码，之后是数据内容。</p>
+
+                <h2>与JSON对比</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>特性</th>
+                            <th>JSON</th>
+                            <th>Protobuf</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>格式</td>
+                            <td>文本</td>
+                            <td>二进制</td>
+                        </tr>
+                        <tr>
+                            <td>可读性</td>
+                            <td>高</td>
+                            <td>低</td>
+                        </tr>
+                        <tr>
+                            <td>体积</td>
+                            <td>较大</td>
+                            <td>较小</td>
+                        </tr>
+                        <tr>
+                            <td>解析速度</td>
+                            <td>较慢</td>
+                            <td>快6倍以上</td>
+                        </tr>
+                        <tr>
+                            <td>Schema</td>
+                            <td>无需</td>
+                            <td>需要.proto文件</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>总结</h2>
+                <p>Protobuf通过使用二进制格式、预定义的数据结构和优化的编码方式，在网络传输和数据处理方面表现出了更高的性能。但JSON在可读性和易用性方面更具优势，适用于Web API开发等场景。</p>
+
+                <div class="article-nav">
+                    <a href="what-is-json.html" class="btn btn-secondary">← 什么是JSON</a>
+                    <a href="json-vs-protobuf.html" class="btn btn-primary">JSON与Protobuf对比 →</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 JSON工具. All rights reserved.</p>
+    </footer>
+
+    <script src="../main.js"></script>
+</body>
+</html>

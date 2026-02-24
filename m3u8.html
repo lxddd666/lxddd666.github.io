@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>m3u8转MP4 - 视频转换工具</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">JSON工具</div>
+            <ul class="nav-links">
+                <li><a href="index.html">JSON格式化</a></li>
+                <li><a href="compress.html">图片压缩</a></li>
+                <li><a href="convert.html">图片转换</a></li>
+                <li><a href="video-convert.html">视频转换</a></li>
+                <li><a href="m3u8.html" class="active">m3u8转MP4</a></li>
+                <li><a href="help.html">帮助中心</a></li>
+                <li><a href="about.html">关于</a></li>
+                <li><a href="privacy.html">隐私政策</a></li>
+                <li><a href="study.html">学习中心</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="tool-header">
+            <h1>m3u8转MP4</h1>
+            <p>在线m3u8视频转换为MP4格式</p>
+        </div>
+
+        <div class="tool-content">
+            <div class="convert-section">
+                <div class="form-group">
+                    <label for="m3u8Url">输入m3u8链接地址</label>
+                    <input type="text" id="m3u8Url" placeholder="请输入m3u8链接...">
+                </div>
+
+                <div class="form-group">
+                    <label for="videoName">输出文件名（可选）</label>
+                    <input type="text" id="videoName" placeholder="默认: output.mp4">
+                </div>
+
+                <div class="btn-group-center">
+                    <button onclick="startConvert()" class="btn btn-primary btn-large">开始转换</button>
+                </div>
+
+                <div id="convertStatus" class="status-message"></div>
+
+                <div class="info-box">
+                    <h3>说明</h3>
+                    <ul>
+                        <li>本工具需要后端服务器支持视频转换</li>
+                        <li>纯浏览器端无法直接完成m3u8到MP4的转换</li>
+                        <li>请确保输入的m3u8链接可访问</li>
+                        <li>转换时间取决于视频大小和网络速度</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 JSON工具. All rights reserved.</p>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

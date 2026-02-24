@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频文件blob/m3u8基础见解和ffmpeg基础使用 - 学习中心</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .article-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.8;
+        }
+        .article-content h1 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+        .article-content h2 {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem 0;
+            color: var(--dark-color);
+        }
+        .article-content h3 {
+            font-size: 1.2rem;
+            margin: 1.5rem 0 0.5rem 0;
+            color: var(--dark-color);
+        }
+        .article-content p {
+            margin: 0.8rem 0;
+            color: var(--text-color);
+        }
+        .article-content ul, .article-content ol {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        .article-content li {
+            margin: 0.5rem 0;
+        }
+        .article-content a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .article-content a:hover {
+            text-decoration: underline;
+        }
+        .code-block {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+        .code-block code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 1rem;
+            border-left: 4px solid #ffc107;
+            margin: 1rem 0;
+        }
+        .warning {
+            background: #f8d7da;
+            padding: 1rem;
+            border-left: 4px solid #dc3545;
+            margin: 1rem 0;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="../index.html">JSON & M3U8 Tools</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html">JSON格式化</a></li>
+                <li><a href="../m3u8.html">m3u8转MP4</a></li>
+                <li><a href="../study.html">学习中心</a></li>
+                <li><a href="../about.html">关于</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="article-content">
+            <a href="../study.html" class="back-link">← 返回学习中心</a>
+            
+            <h1>视频文件blob/m3u8基础见解和ffmpeg基础使用</h1>
+
+            <p>通常一些网站的视频不会直接放文件源地址，而是会放一个 <code>&lt;video src="blob:xxxx"/&gt;</code> 能够防止一些基础的爬虫。转blob这一步只是前端的一种手段，但是还是能追溯到根源的（可能是m3u8，需要抓包看）。还有一种视频比较大的视频网站，会通过m3u8来逐个下载对应的视频文件（类似分片）。</p>
+
+            <h2>1. 什么是Blob？</h2>
+            <p>Blob（Binary Large Object）是一种前端技术，用于表示二进制数据。在视频播放中，<code>blob:</code> URL 是一种特殊的 URL 方案，它创建了一个对浏览器内存中数据的引用，而不是指向服务器上的实际文件。</p>
+
+            <h3>Blob URL的工作原理</h3>
+            <ul>
+                <li>服务器返回视频数据时，前端JavaScript会创建一个Blob对象</li>
+                <li>浏览器为这个Blob对象生成一个临时的URL（blob:http://...）</li>
+                <li>video标签的src属性指向这个blob URL</li>
+                <li>视频播放器直接播放内存中的数据</li>
+            </ul>
+
+            <div class="warning">
+                <strong>注意：</strong>使用blob URL播放视频只是一种前端隐藏真实视频源的技术手段，通过浏览器开发者工具的网络抓包，仍然可以追溯到真实的视频地址。
+            </div>
+
+            <h2>2. M3U8分片下载原理</h2>
+            <p>M3U8 是一个 HLS（HTTP Live Streaming）协议的播放清单文件。它本质上是一个纯文本的 index 文件，列出视频的分片路径（如 .ts 或 .fmp4）。浏览器或播放器边播放边拉片段。</p>
+
+            <h3>M3U8文件内容示例</h3>
+
+            <div class="code-block">
+                <code>#EXTM3U<br>
+#EXT-X-VERSION:6<br>
+#EXT-X-TARGETDURATION:10<br>
+#ID3-EQUIV-TDTG:2025-07-07T16:40:36<br>
+#EXT-X-PLAYLIST-TYPE:EVENT<br>
+#EXT-X-MEDIA-SEQUENCE:0<br>
+#EXT-X-MAP:URI="init-0.mp4"<br>
+#EXTINF:10.000,<br>
+0.mp4<br>
+#EXTINF:10.000,<br>
+1.mp4<br>
+#EXTINF:10.000,<br>
+2.mp4</code>
+            </div>
+
+            <h3>M3U8分片下载流程</h3>
+            <ol>
+                <li>浏览器首先请求M3U8播放列表文件</li>
+                <li>解析M3U8文件获取分片列表</li>
+                <li>按顺序下载各个分片文件（.ts或.mp4）</li>
+                <li>播放器边下载边播放</li>
+                <li>对于直播流，浏览器会定时重新请求M3U8文件获取最新分片</li>
+            </ol>
+
+            <h2>3. FFmpeg下载M3U8视频</h2>
+            <p>FFmpeg是一个强大的多媒体处理工具，可以直接下载M3U8视频并自动合并分片。</p>
+
+            <h3>安装FFmpeg</h3>
+            <p>可以从<a href="https://www.gyan.dev/ffmpeg/builds/">FFmpeg官网</a>下载安装包。</p>
+
+            <h3>基本下载命令</h3>
+
+            <div class="code-block">
+                <code>ffmpeg -i "xxx.m3u8" -c copy output.mp4</code>
+            </div>
+
+            <p>这个命令会：</p>
+            <ul>
+                <li><strong>-i "xxx.m3u8"</strong>：指定M3U8播放列表的URL</li>
+                <li><strong>-c copy</strong>：直接复制流，不重新编码（速度快）</li>
+                <li><strong>output.mp4</strong>：输出文件名</li>
+            </ul>
+
+            <h3>其他常用FFmpeg命令</h3>
+
+            <h4>指定视频编码器下载</h4>
+            <div class="code-block">
+                <code>ffmpeg -i "xxx.m3u8" -c:v libx264 -c:a aac output.mp4</code>
+            </div>
+
+            <h4>指定输出分辨率</h4>
+            <div class="code-block">
+                <code>ffmpeg -i "xxx.m3u8" -vf scale=1280:720 output.mp4</code>
+            </div>
+
+            <h4>只提取视频或音频</h4>
+            <div class="code-block">
+                <code># 只提取视频<br>
+ffmpeg -i "xxx.m3u8" -vn -c copy output.mp4<br>
+<br>
+# 只提取音频<br>
+ffmpeg -i "xxx.m3u8" -an -c copy output.mp4</code>
+            </div>
+
+            <h2>4. 常见问题</h2>
+
+            <h3>Q: 为什么视频要用blob URL？</h3>
+            <p>A: 主要是为了隐藏真实的视频源地址，防止简单的爬虫直接获取视频地址进行下载。</p>
+
+            <h3>Q: 如何获取blob视频的真实地址？</h3>
+            <p>A: 使用浏览器开发者工具的Network（网络）面板，查找m3u8或.ts/.mp4分片的请求，找到原始的播放列表URL。</p>
+
+            <h3>Q: FFmpeg下载M3U8失败怎么办？</h3>
+            <p>A: 可以尝试以下方法：</p>
+            <ul>
+                <li>检查URL是否正确</li>
+                <li>添加用户代理参数</li>
+                <li>添加referer参数</li>
+                <li>检查是否有防盗链</li>
+            </ul>
+
+            <h2>5. 总结</h2>
+            
+            <div class="highlight">
+                <strong>FFmpeg是视频处理领域的瑞士军刀！</strong>无论是下载M3U8视频、格式转换、剪辑还是转码，FFmpeg都能胜任。掌握FFmpeg命令可以大大提高视频处理的效率。
+            </div>
+
+            <p>通过本文，我们了解了：</p>
+            <ul>
+                <li>Blob URL是前端隐藏视频源的一种技术手段</li>
+                <li>M3U8是HLS协议的播放列表文件，用于管理视频分片</li>
+                <li>FFmpeg可以方便地下载M3U8视频并自动合并</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 JSON & M3U8 Tools. All rights reserved.</p>
+    </footer>
+</body>
+</html>

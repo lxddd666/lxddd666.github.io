@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片压缩 - JSON工具</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">JSON工具</div>
+            <ul class="nav-links">
+                <li><a href="index.html">JSON格式化</a></li>
+                <li><a href="compress.html" class="active">图片压缩</a></li>
+                <li><a href="convert.html">图片转换</a></li>
+                <li><a href="video-convert.html">视频转换</a></li>
+                <li><a href="m3u8.html">m3u8转MP4</a></li>
+                <li><a href="help.html">帮助中心</a></li>
+                <li><a href="about.html">关于</a></li>
+                <li><a href="privacy.html">隐私政策</a></li>
+                <li><a href="study.html">学习中心</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="tool-header">
+            <h1>图片压缩</h1>
+            <p>在线图片压缩工具，支持JPEG、PNG格式</p>
+        </div>
+
+        <div class="tool-content">
+            <div class="upload-section" id="compressUploadSection">
+                <div class="upload-area" id="compressUploadArea">
+                    <div class="upload-icon">📁</div>
+                    <p>点击选择图片或拖拽图片到这里</p>
+                    <p class="upload-hint">支持 JPEG、PNG 格式</p>
+                    <input type="file" id="compressFileInput" accept="image/jpeg,image/png" hidden>
+                </div>
+            </div>
+
+            <div class="compress-result" id="compressResult" style="display: none;">
+                <div class="preview-container">
+                    <div class="preview-box">
+                        <h3>原图</h3>
+                        <div class="image-wrapper">
+                            <img id="compressOriginalImage" src="" alt="原图">
+                        </div>
+                        <div class="file-info">
+                            <span class="label">源文件大小：</span>
+                            <span id="compressOriginalSize" class="value">0 KB</span>
+                        </div>
+                    </div>
+
+                    <div class="preview-box">
+                        <h3>压缩后</h3>
+                        <div class="image-wrapper">
+                            <img id="compressCompressedImage" src="" alt="压缩后">
+                        </div>
+                        <div class="file-info">
+                            <span class="label">压缩后大小：</span>
+                            <span id="compressCompressedSize" class="value">0 KB</span>
+                        </div>
+                        <div class="file-info compression-ratio">
+                            <span class="label">压缩比例：</span>
+                            <span id="compressCompressionRatio" class="value">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="compress-controls">
+                    <div class="slider-container">
+                        <label for="compressQualitySlider">压缩率：<span id="compressQualityValue">0</span>%</label>
+                        <input type="range" id="compressQualitySlider" min="0" max="100" value="0">
+                        <div class="slider-labels">
+                            <span>0% (最小)</span>
+                            <span>100% (最大)</span>
+                        </div>
+                    </div>
+                    <div class="btn-group-center">
+                        <button onclick="downloadCompressed()" class="btn btn-primary">下载压缩后的图片</button>
+                        <button onclick="resetCompress()" class="btn btn-danger">重新选择图片</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="compressErrorMsg" class="error-message"></div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 JSON工具. All rights reserved.</p>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

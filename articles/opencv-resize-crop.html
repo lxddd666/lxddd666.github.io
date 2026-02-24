@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenCV图像缩放与裁剪 - JSON学习中心</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">JSON工具</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">JSON格式化</a></li>
+                <li><a href="../compress.html">图片压缩</a></li>
+                <li><a href="../convert.html">图片转换</a></li>
+                <li><a href="../video-convert.html">视频转换</a></li>
+                <li><a href="../m3u8.html">m3u8转MP4</a></li>
+                <li><a href="../help.html">帮助中心</a></li>
+                <li><a href="../about.html">关于</a></li>
+                <li><a href="../privacy.html">隐私政策</a></li>
+                <li><a href="../study.html" class="active">学习中心</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="tool-header">
+            <h1>OpenCV图像缩放与裁剪</h1>
+            <p>Python OpenCV图像处理基础教程</p>
+        </div>
+
+        <div class="tool-content">
+            <div class="article-content">
+                <h2>一、OpenCV简介</h2>
+                <p>OpenCV（Open Source Computer Vision Library）是一个开源计算机视觉和机器学习软件库。它提供了大量的图像和视频处理功能，可以用于各种应用场景，比如人脸识别、物体检测、图像分割等。</p>
+
+                <h2>二、安装OpenCV</h2>
+                <div class="code-block">
+                    <code># 安装OpenCV
+pip install opencv-python
+
+# 安装OpenCV增强版（包含额外功能）
+pip install opencv-contrib-python</code>
+                </div>
+
+                <h2>三、图像缩放</h2>
+                <p>在Python中使用opencv-python对图像进行缩放非常简单，可以使用resize函数对图像进行缩放。</p>
+                
+                <h3>1. 基本语法</h3>
+                <div class="code-block">
+                    <code>import cv2
+
+# 读取图像
+img = cv2.imread('image.jpg')
+
+# 缩放图像
+# 方法1：指定具体尺寸
+resized = cv2.resize(img, (width, height))
+
+# 方法2：指定缩放比例
+scale_percent = 50  # 50%
+width = int(img.shape[1] * scale_percent / 100)
+height = int(img.shape[0] * scale_percent / 100)
+resized = cv2.resize(img, (width, height))</code>
+                </div>
+
+                <h3>2. 插值方法</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>方法</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>cv2.INTER_NEAREST</td>
+                            <td>最近邻插值，速度最快，质量最差</td>
+                        </tr>
+                        <tr>
+                            <td>cv2.INTER_LINEAR</td>
+                            <td>双线性插值，默认方法，质量与速度平衡</td>
+                        </tr>
+                        <tr>
+                            <td>cv2.INTER_CUBIC</td>
+                            <td>双三次插值，质量较好，速度较慢</td>
+                        </tr>
+                        <tr>
+                            <td>cv2.INTER_LANCZOS4</td>
+                            <td>Lanczos插值，质量最好，速度最慢</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>3. 使用示例</h3>
+                <div class="code-block">
+                    <code>import cv2
+
+img = cv2.imread('image.jpg')
+
+# 放大图像 - 使用INTER_CUBIC或INTER_LINEAR
+enlarged = cv2.resize(img, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
+
+# 缩小图像 - 使用INTER_AREA
+reduced = cv2.resize(img, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
+
+cv2.imwrite('enlarged.jpg', enlarged)
+cv2.imwrite('reduced.jpg', reduced)</code>
+                </div>
+
+                <h2>四、图像裁剪</h2>
+                <p>图像裁剪是从图像中提取感兴趣区域（ROI）的过程。</p>
+                
+                <h3>1. 基本裁剪</h3>
+                <div class="code-block">
+                    <code>import cv2
+
+img = cv2.imread('image.jpg')
+
+# 裁剪图像 [行范围, 列范围]
+# 格式: img[y1:y2, x1:x2]
+cropped = img[100:400, 200:500]  # 从(200,100)裁剪到(500,400)
+
+cv2.imwrite('cropped.jpg', cropped)</code>
+                </div>
+
+                <h3>2. 裁剪示例图解</h3>
+                <pre>
+原图尺寸: 640x480
+裁剪区域: x1=200, y1=100, x2=500, y2=400
+裁剪后尺寸: 300x300
+                </pre>
+
+                <h3>3. 批量裁剪多个区域</h3>
+                <div class="code-block">
+                    <code>import cv2
+
+img = cv2.imread('image.jpg')
+
+# 定义多个裁剪区域
+regions = [
+    (0, 0, 200, 200),      # 区域1
+    (200, 0, 400, 200),    # 区域2
+    (0, 200, 200, 400),    # 区域3
+    (200, 200, 400, 400)   # 区域4
+]
+
+for i, (x1, y1, x2, y2) in enumerate(regions):
+    cropped = img[y1:y2, x1:x2]
+    cv2.imwrite(f'cropped_{i+1}.jpg', cropped)</code>
+                </div>
+
+                <h2>五、综合示例：图像缩放+裁剪</h2>
+                <div class="code-block">
+                    <code>import cv2
+
+def resize_and_crop(image_path, target_size, crop_area):
+    """
+    图像缩放并裁剪
+    image_path: 输入图像路径
+    target_size: 目标尺寸 (width, height)
+    crop_area: 裁剪区域 (x1, y1, x2, y2)
+    """
+    img = cv2.imread(image_path)
+    
+    # 1. 缩放图像
+    resized = cv2.resize(img, target_size, interpolation=cv2.INTER_LINEAR)
+    
+    # 2. 裁剪图像
+    x1, y1, x2, y2 = crop_area
+    cropped = resized[y1:y2, x1:x2]
+    
+    return cropped
+
+# 使用示例
+result = resize_and_crop('input.jpg', (800, 600), (100, 50, 700, 550))
+cv2.imwrite('output.jpg', result)</code>
+                </div>
+
+                <h2>六、注意事项</h2>
+                <ul>
+                    <li>OpenCV中图像坐标原点在左上角，x向右增加，y向下增加</li>
+                    <li>裁剪时确保坐标在图像范围内，否则会报错</li>
+                    <li>放大图像时推荐使用INTER_CUBIC或INTER_LINEAR</li>
+                    <li>缩小图像时推荐使用INTER_AREA，可获得最佳效果</li>
+                    <li>处理完成后记得使用cv2.imwrite()保存图像</li>
+                </ul>
+
+                <h2>七、总结</h2>
+                <p>OpenCV是Python中最常用的图像处理库，无论是处理图像还是视频，都能提供强大的支持。特别是在进行图像缩放和裁剪时，cv2.resize函数和数组切片操作非常实用。掌握这些基础操作是进行更复杂图像处理的前提。</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 JSON工具. All rights reserved.</p>
+    </footer>
+</body>
+</html>

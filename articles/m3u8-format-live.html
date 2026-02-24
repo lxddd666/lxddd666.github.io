@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M3U8 格式：为什么直播回放都用这个格式？ - 学习中心</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .article-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.8;
+        }
+        .article-content h1 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+        .article-content h2 {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem 0;
+            color: var(--dark-color);
+        }
+        .article-content h3 {
+            font-size: 1.2rem;
+            margin: 1.5rem 0 0.5rem 0;
+            color: var(--dark-color);
+        }
+        .article-content p {
+            margin: 0.8rem 0;
+            color: var(--text-color);
+        }
+        .article-content ul, .article-content ol {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        .article-content li {
+            margin: 0.5rem 0;
+        }
+        .article-content a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .article-content a:hover {
+            text-decoration: underline;
+        }
+        .code-block {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+        .code-block code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="../index.html">JSON & M3U8 Tools</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html">JSON格式化</a></li>
+                <li><a href="../m3u8.html">m3u8转MP4</a></li>
+                <li><a href="../study.html">学习中心</a></li>
+                <li><a href="../about.html">关于</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="article-content">
+            <a href="../study.html" class="back-link">← 返回学习中心</a>
+            
+            <h1>M3U8 格式：为什么直播回放都用这个格式？</h1>
+
+            <p>M3U8 文件是一种纯文本文件，可以指定一个或多个多媒体文件的位置。它的设计初衷是为了播放音频文件，但后来越来越多的用于播放视频文件列表。而 M3U8 则是用 UTF-8 编码的 M3U。M3U、M3U8 文件都是苹果公司使用的 HLS(HTTP Live Streaming) 协议的基础。</p>
+
+            <h2>M3U8 格式概览</h2>
+            <p>M3U8 文件其实是一个播放列表，这个列表可能是一个媒体播放列表（Media Playlist），也可能是一个主播放列表（Master Playlist）。但无论是哪种播放列表，其内部文字使用的都是 utf-8 编码。</p>
+
+            <h2>M3U8 的应用场景</h2>
+            <p>在实际应用场景中，由于 HLS/M3U8/TS 这套方案在控制直播延时上不太理想，所以一般实时直播场景不会选择使用 M3U8 媒体格式。但是，对于直播回放这种场景，由于使用 M3U8/TS 这套方案能够在直播过程中就持续生成和存储切片，所以直播回放基本上都会选择 M3U8 媒体格式。</p>
+
+            <h2>媒体播放列表</h2>
+            <p>当 M3U8 文件作为媒体播放列表（Media Playlist）时，其包含的信息记录的是一系列多媒体资源切片，顺序播放这些切片，即可完整呈现多媒体资源。</p>
+
+            <div class="code-block">
+                <code>#EXTM3U<br>
+#EXT-X-TARGETDURATION:10<br>
+#EXTINF:9.009,<br>
+http://media.example.com/first.ts<br>
+#EXTINF:9.009,<br>
+http://media.example.com/second.ts<br>
+#EXTINF:3.003,<br>
+http://media.example.com/third.ts<br>
+#EXT-X-ENDLIST</code>
+            </div>
+
+            <p>第一行的 #EXTM3U 表示文件格式。第二行的 #EXT-X-TARGETDURATION:10 表示后面的各个资源切片时长都小于或等于 10 秒。接下来，我们看到有 3 个资源切片，时长分别是 9.009 秒、9.009 秒、3.003 秒。</p>
+
+            <p>在点播时，客户端首先下载 M3U8 文件，然后按照 M3U8 列表下载各个资源切片依次播放即可。在直播时，客户端则需要定时重新请求 M3U8 文件，从而检查是否有新的媒体切片需要进行下载播放。所有的这些数据都通过 HTTP 协议传输。</p>
+
+            <h2>主播放列表</h2>
+            <p>当 M3U8 文件作为主播放列表（Master Playlist）时，其包含的信息是同一个媒体资源的多路流资源列表。不同的流可能有着不同的码率，不同的格式，不同的分辨率。不同的流也可以指定不同语言的音频，不同视角的视频等等。</p>
+
+            <div class="code-block">
+                <code>#EXTM3U<br>
+#EXT-X-STREAM-INF:BANDWIDTH=150000,RESOLUTION=416x234,CODECS="avc1.42e00a,mp4a.40.2"<br>
+http://example.com/low/index.m3u8<br>
+#EXT-X-STREAM-INF:BANDWIDTH=240000,RESOLUTION=416x234,CODECS="avc1.42e00a,mp4a.40.2"<br>
+http://example.com/lo_mid/index.m3u8<br>
+#EXT-X-STREAM-INF:BANDWIDTH=440000,RESOLUTION=416x234,CODECS="avc1.42e00a,mp4a.40.2"<br>
+http://example.com/hi_mid/index.m3u8<br>
+#EXT-X-STREAM-INF:BANDWIDTH=640000,RESOLUTION=640x360,CODECS="avc1.42e00a,mp4a.40.2"<br>
+http://example.com/high/index.m3u8<br>
+#EXT-X-STREAM-INF:BANDWIDTH=64000,CODECS="mp4a.40.5"<br>
+http://example.com/audio/index.m3u8</code>
+            </div>
+
+            <p>客户端应该根据网络状况来选择合适的流来播放，也应该根据用户的偏好来选择合适的语言和视角的流来播放。</p>
+
+            <h2>M3U8 格式规范</h2>
+
+            <h3>格式要求</h3>
+            <ul>
+                <li>M3U8 播放列表文件必须以 UTF-8 进行编码</li>
+                <li>不能包含任何 Byte Order Mark（BOM）内容</li>
+                <li>除了 CR 和 LF 之外不能包含任何 UTF-8 控制字符</li>
+                <li>所有的字符序列必须遵循 Unicode 规范</li>
+            </ul>
+
+            <h3>文件结构</h3>
+            <p>M3U8 播放列表文件的每一行要么是一个 URI，要么是空行，要么是以 # 开头的字符串。空行会被忽略。以 # 开头的字符串要么是注释，要么是标签。标签以 #EXT 开头，大小写敏感。</p>
+
+            <h3>媒体切片时长</h3>
+            <p>一个媒体播放列表的时长等于它包含的所有媒体切片时长的总和。每个媒体切片的码率等于切片的大小除以它的时长。</p>
+
+            <h2>M3U8 标签详解</h2>
+
+            <h3>基础标签</h3>
+            <ul>
+                <li><strong>#EXTM3U</strong>：表示文件继承自 M3U 标准，必须放在文件第一行</li>
+                <li><strong>#EXT-X-VERSION</strong>：表示文件的版本</li>
+            </ul>
+
+            <h3>媒体切片标签</h3>
+            <ul>
+                <li><strong>#EXT-X-TARGETDURATION</strong>：每个分片 TS 的最大的时长</li>
+                <li><strong>#EXTINF</strong>：分片 TS 的信息，如时长、带宽等</li>
+                <li><strong>#EXT-X-ENDLIST</strong>：M3U8 文件结束符</li>
+                <li><strong>#EXT-X-MEDIA-SEQUENCE</strong>：第一个 TS 分片的序列号</li>
+                <li><strong>#EXT-X-ALLOW-CACHE</strong>：是否允许缓存</li>
+            </ul>
+
+            <h2>HLS 协议优势</h2>
+            <ul>
+                <li>HLS 只请求基本的 HTTP 报文，与实时传输协议（RTP）不同，HLS 可以穿过任何允许 HTTP 数据通过的防火墙或者代理服务器</li>
+                <li>很容易使用内容分发网络来传输媒体流，这是 HLS 应用在直播上的一大优势</li>
+                <li>支持多码率自适应，用户可以根据网络状况自动选择合适的清晰度</li>
+                <li>支持加密和 DRM，可以保护内容版权</li>
+            </ul>
+
+            <h2>M3U8 与直播</h2>
+
+            <h3>如何判断 M3U8 是直播还是点播？</h3>
+            
+            <h3>1. 判断是否存在 #EXT-X-ENDLIST</h3>
+            <p>对于一个 M3U8 文件，如果结尾不存在 #EXT-X-ENDLIST，那么一定是直播，不是点播。</p>
+
+            <h3>2. 判断 #EXT-X-PLAYLIST-TYPE 类型</h3>
+            <p>'#EXT-X-PLAYLIST-TYPE' 有两种类型：</p>
+            <ul>
+                <li><strong>VOD</strong> (Video on Demand)：表示该视频流为点播源，服务器不能更改该 M3U8 文件</li>
+                <li><strong>EVENT</strong>：表示该视频流为直播源，服务器可以在文件末尾添加新内容</li>
+            </ul>
+
+            <h2>总结</h2>
+            <p>M3U8 作为 HLS 协议的核心组成部分，在直播回放和点播场景中有着广泛的应用。虽然在实时直播方面由于延迟问题不如其他协议，但在需要高可靠性、易于 CDN 分发和自适应码率的场景中，M3U8 仍然是最佳选择之一。</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 JSON & M3U8 Tools. All rights reserved.</p>
+    </footer>
+</body>
+</html>

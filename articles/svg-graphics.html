@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG：可缩放矢量图形 - 学习中心</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .article-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.8;
+        }
+        .article-content h1 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+        .article-content h2 {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem 0;
+            color: var(--dark-color);
+        }
+        .article-content h3 {
+            font-size: 1.2rem;
+            margin: 1.5rem 0 0.5rem 0;
+            color: var(--dark-color);
+        }
+        .article-content p {
+            margin: 0.8rem 0;
+            color: var(--text-color);
+        }
+        .article-content ul, .article-content ol {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        .article-content li {
+            margin: 0.5rem 0;
+        }
+        .article-content a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .article-content a:hover {
+            text-decoration: underline;
+        }
+        .code-block {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+        .code-block code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="../index.html">JSON & M3U8 Tools</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html">JSON格式化</a></li>
+                <li><a href="../m3u8.html">m3u8转MP4</a></li>
+                <li><a href="../study.html">学习中心</a></li>
+                <li><a href="../about.html">关于</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="article-content">
+            <a href="../study.html" class="back-link">← 返回学习中心</a>
+            
+            <h1>SVG：可缩放矢量图形</h1>
+
+            <p>可缩放矢量图形（Scalable Vector Graphics，SVG）基于 XML 标记语言，用于描述二维的矢量图形。作为一个基于文本的开放 Web 标准，SVG 能够优雅而简洁地渲染不同大小的图形，并和 CSS、DOM、JavaScript 和 SMIL 等其他 Web 标准无缝衔接。本质上，SVG 相对于图像，就好比 HTML 相对于文本。</p>
+
+            <h2>什么是SVG</h2>
+            <p>SVG 图像及其相关行为被定义于 XML 文本文件之中，这意味着可以对它们进行搜索、索引、编写脚本以及压缩。此外，这也意味着可以使用任何文本编辑器和绘图软件来创建和编辑它们。</p>
+            <p>和传统的点阵图像模式（如 JPEG 和 PNG）不同的是，SVG 格式提供的是矢量图，这意味着它的图像能够被无限放大而不失真或降低质量，并且可以方便地修改内容，无需图形编辑器。通过使用合适的库进行配合，SVG 文件甚至可以随时进行本地化。</p>
+            <p>SVG 是由万维网联盟（W3C）自 1999 年开始开发的开放标准。</p>
+
+            <h2>SVG基本语法</h2>
+            <p>作为 XML 的一种方言，SVG 必须正确的绑定命名空间（在 xmlns 属性中绑定）。</p>
+
+            <div class="code-block">
+                <code>&lt;svg width="200" height="200" xmlns="http://www.w3.org/2000/svg"&gt;<br>
+&nbsp;&nbsp;&lt;!-- 绘制一个矩形 --&gt;<br>
+&nbsp;&nbsp;&lt;rect x="0" y="0" width="200" height="200" fill="red"/&gt;<br>
+&nbsp;&nbsp;&lt;!-- 绘制一个圆形 --&gt;<br>
+&nbsp;&nbsp;&lt;circle cx="100" cy="100" r="80" fill="green"/&gt;<br>
+&lt;/svg&gt;</code>
+            </div>
+
+            <h2>SVG坐标系统</h2>
+            <p>SVG 使用坐标系统来定位元素。默认情况下，SVG 的左上角为原点 (0, 0)，x 轴向右延伸，y 轴向下延伸。</p>
+
+            <h3>坐标定位</h3>
+            <p>如同 CSS 可以定义字体的绝对大小和相对大小，SVG 也可以定义绝对大小（比如使用像素或厘米等单位）或者相对大小（比如使用 em 单位）。</p>
+
+            <h2>SVG基本元素</h2>
+
+            <h3>1. 矩形 - rect</h3>
+            <p>使用 rect 元素可以绘制矩形。</p>
+            <div class="code-block">
+                <code>&lt;rect x="10" y="10" width="100" height="50" rx="5" ry="5" fill="blue"/&gt;</code>
+            </div>
+
+            <h3>2. 圆形 - circle</h3>
+            <p>使用 circle 元素可以绘制圆形。</p>
+            <div class="code-block">
+                <code>&lt;circle cx="50" cy="50" r="40" fill="red"/&gt;</code>
+            </div>
+
+            <h3>3. 椭圆 - ellipse</h3>
+            <p>使用 ellipse 元素可以绘制椭圆。</p>
+            <div class="code-block">
+                <code>&lt;ellipse cx="50" cy="50" rx="40" ry="20" fill="green"/&gt;</code>
+            </div>
+
+            <h3>4. 线条 - line</h3>
+            <p>使用 line 元素可以绘制直线。</p>
+            <div class="code-block">
+                <code>&lt;line x1="0" y1="0" x2="100" y2="100" stroke="black" stroke-width="2"/&gt;</code>
+            </div>
+
+            <h3>5. 折线 - polyline</h3>
+            <p>使用 polyline 元素可以绘制折线。</p>
+            <div class="code-block">
+                <code>&lt;polyline points="0,0 50,50 100,0 150,50" fill="none" stroke="blue"/&gt;</code>
+            </div>
+
+            <h3>6. 多边形 - polygon</h3>
+            <p>使用 polygon 元素可以绘制多边形。</p>
+            <div class="code-block">
+                <code>&lt;polygon points="50,0 100,100 0,100" fill="orange"/&gt;</code>
+            </div>
+
+            <h3>7. 路径 - path</h3>
+            <p>path 元素是用来定义形状的通用元素。所有的基本形状都可以用 path 元素来创建。</p>
+            <div class="code-block">
+                <code>&lt;path d="M10 80 Q 95 10 180 80" stroke="green" fill="none"/&gt;</code>
+            </div>
+
+            <h2>SVG滤镜效果</h2>
+            <p>SVG 支持滤镜，因此作者可以应用阴影或模糊等效果，甚至合并不同滤镜的结果。</p>
+
+            <h3>高斯模糊</h3>
+            <div class="code-block">
+                <code>&lt;filter id="blur"&gt;<br>
+&nbsp;&nbsp;&lt;feGaussianBlur in="SourceGraphic" stdDeviation="5"/&gt;<br>
+&lt;/filter&gt;<br>
+&lt;rect filter="url(#blur)" .../&gt;</code>
+            </div>
+
+            <h2>SVG动画</h2>
+            <p>使用 SMIL 制作 SVG 动画，SMIL 是一种基于 XML 的语言，用于编写交互式多媒体演示。作者可以在 SVG 中使用 SMIL 语法来定义动画元素的时间和布局。</p>
+
+            <div class="code-block">
+                <code>&lt;circle cx="30" cy="30" r="20" fill="blue"&gt;<br>
+&nbsp;&nbsp;&lt;animate attributeName="cx" from="30" to="170" dur="2s" repeatCount="indefinite"/&gt;<br>
+&lt;/circle&gt;</code>
+            </div>
+
+            <h2>SVG在HTML中的应用</h2>
+            <p>现代浏览器支持在 CSS 样式中使用 SVG，以便在 HTML 内容中应用图形效果。SVG 可在 HTML、CSS、某些 SVG 元素中作为图像格式使用，也可通过 Canvas API 使用。</p>
+
+            <h3>内联SVG</h3>
+            <p>可以直接在 HTML 中嵌入 SVG 代码，实现更灵活的交互和控制。</p>
+
+            <h3>作为图像引用</h3>
+            <div class="code-block">
+                <code>&lt;img src="image.svg" alt="SVG Image"&gt;</code>
+            </div>
+
+            <h3>在CSS中引用</h3>
+            <div class="code-block">
+                <code>background-image: url('image.svg');</code>
+            </div>
+
+            <h2>SVG的优势</h2>
+            <ul>
+                <li><strong>无限缩放</strong>：无论放大到多大，都保持清晰的边缘</li>
+                <li><strong>文件体积小</strong>：对于简单图形，SVG 文件比位图小得多</li>
+                <li><strong>可编辑性</strong>：可以用任何文本编辑器修改 SVG 代码</li>
+                <li><strong>可搜索</strong>：文本内容可以被搜索引擎索引</li>
+                <li><strong>交互性</strong>：可以结合 JavaScript 实现交互效果</li>
+                <li><strong>开放标准</strong>：W3C 制定的开放标准，不依赖特定厂商</li>
+            </ul>
+
+            <h2>SVG的局限性</h2>
+            <ul>
+                <li><strong>不适合复杂图像</strong>：对于照片等具有丰富色彩和细节的图像，SVG 不是最佳选择</li>
+                <li><strong>渲染性能</strong>：复杂的 SVG 图形可能需要更多计算资源</li>
+                <li><strong>兼容性</strong>：虽然现代浏览器都支持 SVG，但一些旧版本浏览器可能存在兼容性问题</li>
+            </ul>
+
+            <h2>总结</h2>
+            <p>SVG 作为 Web 标准的重要组成部分，为矢量图形在网页中的应用提供了强大的支持。它的开放性、可扩展性和与 Web 技术的深度集成使其成为图标、图表、简单图形等场景的理想选择。随着浏览器技术的不断进步，SVG 的应用将会更加广泛。</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 JSON & M3U8 Tools. All rights reserved.</p>
+    </footer>
+</body>
+</html>

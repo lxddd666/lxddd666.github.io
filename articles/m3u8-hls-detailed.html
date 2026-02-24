@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M3U8与HLS详解 - 学习中心</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .article-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.8;
+        }
+        .article-content h1 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+        .article-content h2 {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem 0;
+            color: var(--dark-color);
+        }
+        .article-content h3 {
+            font-size: 1.2rem;
+            margin: 1.5rem 0 0.5rem 0;
+            color: var(--dark-color);
+        }
+        .article-content p {
+            margin: 0.8rem 0;
+            color: var(--text-color);
+        }
+        .article-content ul, .article-content ol {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        .article-content li {
+            margin: 0.5rem 0;
+        }
+        .article-content a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .article-content a:hover {
+            text-decoration: underline;
+        }
+        .code-block {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+        .code-block code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="../index.html">JSON & M3U8 Tools</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html">JSON格式化</a></li>
+                <li><a href="../m3u8.html">m3u8转MP4</a></li>
+                <li><a href="../study.html">学习中心</a></li>
+                <li><a href="../about.html">关于</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="article-content">
+            <a href="../study.html" class="back-link">← 返回学习中心</a>
+            
+            <h1>【音视频】M3U8与HLS详解</h1>
+
+            <p>M3U8 和 HLS 是音视频流媒体领域中常见的技术，广泛应用于在线视频点播（VOD）和直播（Live）场景。M3U8 是一种基于文本的播放列表文件格式，主要用于描述媒体文件的位置和顺序，而 HLS（HTTP Live Streaming）是一种流媒体传输协议，由 Apple 公司提出。HLS 使用 M3U8 文件来管理和播放流媒体内容，能够适应不同的网络环境，实现高质量、低延迟的流媒体传输。</p>
+
+            <h2>M3U8详解</h2>
+
+            <h3>M3U8 是什么</h3>
+            <p>M3U8 是一种基于文本的文件格式，用于描述音视频文件的播放列表。它是 M3U 文件的一种扩展，M3U 文件主要用于音频播放列表，而 M3U8 则用于音视频流媒体播放。M3U8 文件使用 UTF-8 编码，通常用于 HTTP Live Streaming (HLS) 协议中，作为媒体分片的索引文件。</p>
+
+            <h3>M3U8 文件的组成部分</h3>
+            <p>一个典型的 M3U8 文件包含多个标签，每个标签都以井号（#）开头。以下是 M3U8 文件的主要组成部分：</p>
+
+            <h4>文件头</h4>
+            <ul>
+                <li><strong>#EXTM3U</strong>：所有 M3U8 文件的起始标签，表明这是一个 M3U8 文件。</li>
+            </ul>
+
+            <h4>基本标签</h4>
+            <ul>
+                <li><strong>#EXTINF:&lt;duration&gt;,&lt;title&gt;</strong>：描述媒体分片的信息。&lt;duration&gt; 是分片的时长（以秒为单位），&lt;title&gt; 是可选的分片标题。</li>
+                <li><strong>URL</strong>：实际媒体文件的位置，通常紧跟在 #EXTINF 标签之后。</li>
+            </ul>
+
+            <h4>可选标签</h4>
+            <ul>
+                <li><strong>#EXT-X-TARGETDURATION:&lt;seconds&gt;</strong>：指定媒体分片的最大时长。</li>
+                <li><strong>#EXT-X-MEDIA-SEQUENCE:&lt;number&gt;</strong>：定义播放列表中第一个分片的序列号。</li>
+                <li><strong>#EXT-X-VERSION:&lt;number&gt;</strong>：指定播放列表文件的协议版本。</li>
+                <li><strong>#EXT-X-ALLOW-CACHE:&lt;YES|NO&gt;</strong>：指示客户端是否可以缓存播放列表文件。</li>
+                <li><strong>#EXT-X-ENDLIST</strong>：指示播放列表的结束，常用于点播流。</li>
+                <li><strong>#EXT-X-KEY:&lt;attributes&gt;</strong>：描述用于解密媒体分片的密钥信息，包含多个属性（如方法、URI 等）。</li>
+                <li><strong>#EXT-X-STREAM-INF:&lt;attributes&gt;</strong>：用于描述变码率（多码率）流信息，包含分辨率、带宽等属性。</li>
+            </ul>
+
+            <h3>示例 M3U8 文件</h3>
+
+            <div class="code-block">
+                <code>#EXTM3U<br>
+#EXT-X-VERSION:3<br>
+#EXT-X-TARGETDURATION:10<br>
+#EXT-X-MEDIA-SEQUENCE:0<br>
+<br>
+#EXTINF:10.0,<br>
+http://example.com/segment0.ts<br>
+#EXTINF:10.0,<br>
+http://example.com/segment1.ts<br>
+#EXTINF:10.0,<br>
+http://example.com/segment2.ts<br>
+<br>
+#EXT-X-ENDLIST</code>
+            </div>
+
+            <p>以上示例展示了一个简单的 M3U8 文件，其中包含版本信息、目标时长、媒体序列号和三个媒体分片。每个分片的时长为 10 秒，URL 指向实际的媒体文件位置。最后，#EXT-X-ENDLIST 标签表示播放列表的结束。</p>
+
+            <h2>HLS（HTTP Live Streaming）视频封装格式</h2>
+
+            <p>HLS（HTTP Live Streaming）是由 Apple 公司开发的一种流媒体传输协议，广泛用于直播和点播视频流的传输。HLS 协议将视频文件分割成一系列较小的媒体文件（通常称为分片），通过 HTTP 进行传输，并使用 M3U8 播放列表文件来管理这些分片。</p>
+
+            <h3>HLS 视频封装格式的主要组成部分</h3>
+
+            <h4>M3U8 播放列表文件</h4>
+            <ul>
+                <li><strong>Master Playlist（主播放列表）</strong>：用于描述不同比特率和分辨率的变码率流，每个流有一个相应的 Media Playlist。</li>
+                <li><strong>Media Playlist（媒体播放列表）</strong>：包含实际的媒体分片的 URL 和相关信息。每个分片的 URL 通常紧跟在 #EXTINF 标签之后。</li>
+            </ul>
+
+            <h4>媒体分片</h4>
+            <ul>
+                <li><strong>.ts 文件（MPEG-TS）</strong>：HLS 主要使用 MPEG-TS（MPEG Transport Stream）格式来封装视频和音频数据。每个 .ts 文件是一个视频分片，包含一段视频和音频数据。</li>
+                <li><strong>.aac 文件</strong>：在某些情况下，音频数据也可以单独存储为 .aac 文件。</li>
+            </ul>
+
+            <h3>示例 HLS 主播放列表文件（Master Playlist）</h3>
+
+            <div class="code-block">
+                <code>#EXTM3U<br>
+#EXT-X-STREAM-INF:BANDWIDTH=1280000,RESOLUTION=640x360<br>
+http://example.com/low.m3u8<br>
+#EXT-X-STREAM-INF:BANDWIDTH=2560000,RESOLUTION=1280x720<br>
+http://example.com/mid.m3u8<br>
+#EXT-X-STREAM-INF:BANDWIDTH=5120000,RESOLUTION=1920x1080<br>
+http://example.com/high.m3u8</code>
+            </div>
+
+            <h3>示例 HLS 媒体播放列表文件（Media Playlist）</h3>
+
+            <div class="code-block">
+                <code>#EXTM3U<br>
+#EXT-X-VERSION:3<br>
+#EXT-X-TARGETDURATION:10<br>
+#EXT-X-MEDIA-SEQUENCE:0<br>
+<br>
+#EXTINF:10.0,<br>
+http://example.com/segment0.ts<br>
+#EXTINF:10.0,<br>
+http://example.com/segment1.ts<br>
+#EXTINF:10.0,<br>
+http://example.com/segment2.ts<br>
+<br>
+#EXT-X-ENDLIST</code>
+            </div>
+
+            <h3>HLS 封装格式的特点</h3>
+
+            <ul>
+                <li><strong>分段传输</strong>：将视频文件分割成小的分片文件，便于在不稳定的网络环境下进行传输。</li>
+                <li><strong>自适应比特率</strong>：支持不同比特率和分辨率的流，客户端可以根据网络状况动态选择合适的流进行播放。</li>
+                <li><strong>基于 HTTP 传输</strong>：使用标准的 HTTP 协议进行传输，兼容性强，易于通过 CDN（内容分发网络）进行分发。</li>
+            </ul>
+
+            <h2>M3U8与HLS的关系</h2>
+            <p>M3U8 和 HLS 之间的关系可以简单理解为：M3U8 是 HLS 协议中使用的文件格式，用于描述媒体分片的位置和顺序，而 HLS 是整个流媒体传输协议体系。</p>
+            <p>简单来说：</p>
+            <ul>
+                <li><strong>M3U8</strong> = 播放列表文件格式（索引文件）</li>
+                <li><strong>HLS</strong> = 完整的流媒体传输协议</li>
+                <li><strong>关系</strong>：HLS 使用 M3U8 作为其核心组成部分</li>
+            </ul>
+
+            <h2>总结</h2>
+            <p>M3U8 和 HLS 是现代视频流媒体技术的重要组成部分。M3U8 作为播放列表文件格式，提供了媒体分片的索引和管理功能；而 HLS 作为完整的传输协议，实现了自适应码率、分段传输等核心功能。两者结合，使得视频流媒体能够适应不同的网络环境，提供稳定、流畅的播放体验。</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 JSON & M3U8 Tools. All rights reserved.</p>
+    </footer>
+</body>
+</html>

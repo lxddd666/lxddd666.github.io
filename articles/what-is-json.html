@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>什么是JSON - JSON学习中心</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">JSON工具</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">JSON格式化</a></li>
+                <li><a href="../compress.html">图片压缩</a></li>
+                <li><a href="../convert.html">图片转换</a></li>
+                <li><a href="../m3u8.html">m3u8转MP4</a></li>
+                <li><a href="../help.html">帮助中心</a></li>
+                <li><a href="../about.html">关于</a></li>
+                <li><a href="../privacy.html">隐私政策</a></li>
+                <li><a href="../study.html" class="active">学习中心</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="tool-header">
+            <h1>什么是JSON</h1>
+            <p>JSON（JavaScript Object Notation）基础介绍</p>
+        </div>
+
+        <div class="tool-content">
+            <div class="article-content">
+                <h2>JSON简介</h2>
+                <p>JSON（JavaScript Object Notation）是一种轻量级的数据交换格式。它基于JavaScript的一个子集，但已经成为独立于语言的文本格式，被广泛应用于Web开发、移动应用、API接口等领域。</p>
+
+                <h2>JSON的特点</h2>
+                <ul>
+                    <li><strong>轻量级</strong> - 相比XML更加简洁，数据量更小</li>
+                    <li><strong>易于阅读</strong> - 人类可以直观地理解和编写</li>
+                    <li><strong>易于解析</strong> - 机器可以快速解析和生成</li>
+                    <li><strong>语言无关</strong> - 几乎所有编程语言都有JSON解析库</li>
+                </ul>
+
+                <h2>JSON的两种数据结构</h2>
+                
+                <h3>1. 对象（Object）</h3>
+                <p>对象使用大括号 {} 包裹，是一个无序的键值对集合。</p>
+                <div class="code-block">
+                    <code>{<br>
+                    &nbsp;&nbsp;"name": "张三",<br>
+                    &nbsp;&nbsp;"age": 28,<br>
+                    &nbsp;&nbsp;"email": "zhangsan@example.com"<br>
+                    }</code>
+                </div>
+
+                <h3>2. 数组（Array）</h3>
+                <p>数组使用中括号 [] 包裹，是一个有序的值列表。</p>
+                <div class="code-block">
+                    <code>[<br>
+                    &nbsp;&nbsp;"苹果",<br>
+                    &nbsp;&nbsp;"香蕉",<br>
+                    &nbsp;&nbsp;"橙子"<br>
+                    ]</code>
+                </div>
+
+                <h2>JSON数据类型</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>类型</th>
+                            <th>示例</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>字符串</td>
+                            <td>"Hello World"</td>
+                        </tr>
+                        <tr>
+                            <td>数字</td>
+                            <td>123, 3.14</td>
+                        </tr>
+                        <tr>
+                            <td>布尔值</td>
+                            <td>true, false</td>
+                        </tr>
+                        <tr>
+                            <td>空值</td>
+                            <td>null</td>
+                        </tr>
+                        <tr>
+                            <td>对象</td>
+                            <td>{"key": "value"}</td>
+                        </tr>
+                        <tr>
+                            <td>数组</td>
+                            <td>[1, 2, 3]</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>复杂JSON示例</h2>
+                <p>以下是一个包含嵌套结构的复杂JSON对象：</p>
+                <div class="code-block">
+                    <code>{<br>
+                    &nbsp;&nbsp;"users": [<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"id": 1,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name": "张三",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"address": {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"city": "北京",<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"district": "朝阳区"<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;]<br>
+                    }</code>
+                </div>
+
+                <h2>JSON与JavaScript</h2>
+                <p>JSON是JavaScript的原生内容，这意味着在JavaScript中可以直接使用JSON：</p>
+                <div class="code-block">
+                    <code>// 解析JSON字符串<br>
+                    var jsonStr = '{"name": "张三", "age": 25}';<br>
+                    var obj = JSON.parse(jsonStr);<br>
+                    <br>
+                    // 转换为JSON字符串<br>
+                    var obj2 = {name: "李四", age: 30};<br>
+                    var jsonStr2 = JSON.stringify(obj2);</code>
+                </div>
+
+                <div class="article-nav">
+                    <a href="protobuf.html" class="btn btn-primary">Protobuf编码详解 →</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 JSON工具. All rights reserved.</p>
+    </footer>
+
+    <script src="../main.js"></script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片格式转换 - JSON工具</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">JSON工具</div>
+            <ul class="nav-links">
+                <li><a href="index.html">JSON格式化</a></li>
+                <li><a href="compress.html">图片压缩</a></li>
+                <li><a href="convert.html" class="active">图片转换</a></li>
+                <li><a href="video-convert.html">视频转换</a></li>
+                <li><a href="m3u8.html">m3u8转MP4</a></li>
+                <li><a href="help.html">帮助中心</a></li>
+                <li><a href="about.html">关于</a></li>
+                <li><a href="privacy.html">隐私政策</a></li>
+                <li><a href="study.html">学习中心</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="tool-header">
+            <h1>图片格式转换</h1>
+            <p>批量将图片转换为其他格式，支持PNG、GIF、WEBP、BMP、TIFF等</p>
+        </div>
+
+        <div class="tool-content">
+            <div class="upload-section" id="convertUploadSection">
+                <div class="upload-area" id="convertUploadArea">
+                    <div class="upload-icon">🖼️</div>
+                    <p>点击选择图片或拖拽图片到这里</p>
+                    <p class="upload-hint">支持批量选择 PNG, GIF, WEBP, BMP, TIFF 等格式</p>
+                    <input type="file" id="convertFileInput" accept="image/*" multiple hidden>
+                </div>
+            </div>
+
+            <div class="selected-files" id="selectedFiles" style="display: none;">
+                <div class="selected-header">
+                    <h3>已选择的图片 (<span id="convertSelectedCount">0</span> 张)</h3>
+                    <div>
+                        <button onclick="addMoreFiles()" class="btn btn-secondary btn-sm" style="margin-right: 0.5rem;">+ 添加更多</button>
+                        <button onclick="clearConvertFiles()" class="btn btn-danger btn-sm">清空</button>
+                    </div>
+                </div>
+                <div class="file-grid" id="fileGrid"></div>
+                <div class="convert-options">
+                    <div class="option-row">
+                        <div class="option-item">
+                            <label for="outputFormat">输出格式：</label>
+                            <select id="outputFormat" class="format-select">
+                                <option value="image/jpeg" selected>JPG</option>
+                                <option value="image/png">PNG</option>
+                                <option value="image/webp">WEBP</option>
+                                <option value="image/gif">GIF</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="btn-group-center">
+                        <button onclick="startConvert()" class="btn btn-primary btn-large">开始转换</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="convert-result" id="convertResult" style="display: none;">
+                <div class="result-header">
+                    <h3>转换结果</h3>
+                    <div class="btn-group">
+                        <button onclick="downloadAllConverted()" class="btn btn-primary">下载全部</button>
+                        <button onclick="resetConvert()" class="btn btn-danger">重新选择</button>
+                    </div>
+                </div>
+                <div class="file-list" id="convertFileList"></div>
+            </div>
+
+            <div class="info-box">
+                <h3>支持格式说明</h3>
+                <ul>
+                    <li><strong>输入格式：</strong>PNG, GIF, WEBP, BMP, TIFF, JPEG</li>
+                    <li><strong>输出格式：</strong>JPG, PNG, WEBP, GIF</li>
+                    <li>浏览器端无法处理的格式：PSD, SVG, HEIC, RAW等（需要后端支持）</li>
+                    <li>转换后的图片会保持原始尺寸</li>
+                </ul>
+            </div>
+
+            <div id="convertErrorMsg" class="error-message"></div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 JSON工具. All rights reserved.</p>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

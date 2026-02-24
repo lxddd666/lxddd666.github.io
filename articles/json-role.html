@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON的作用 - JSON学习中心</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">JSON工具</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">JSON格式化</a></li>
+                <li><a href="../compress.html">图片压缩</a></li>
+                <li><a href="../convert.html">图片转换</a></li>
+                <li><a href="../m3u8.html">m3u8转MP4</a></li>
+                <li><a href="../help.html">帮助中心</a></li>
+                <li><a href="../about.html">关于</a></li>
+                <li><a href="../privacy.html">隐私政策</a></li>
+                <li><a href="../study.html" class="active">学习中心</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="tool-header">
+            <h1>JSON的作用</h1>
+            <p>JSON是一种与语言无关的数据交换格式</p>
+        </div>
+
+        <div class="tool-content">
+            <div class="article-content">
+                <h2>JSON的主要作用</h2>
+                
+                <h3>1. 使用AJAX进行前后台数据交换</h3>
+                <p>JSON是JavaScript的原生内容，意味着JS可以直接取出JSON对象中的数据，不需要额外的解析过程。这使得AJAX成为Web开发中最常用的前后端数据交换技术。</p>
+                
+                <h3>2. 移动端与服务端的数据交换</h3>
+                <p>在移动应用开发中，JSON作为轻量级的数据交换格式，被广泛应用于iOS、Android等移动平台与服务器之间的数据通信。</p>
+
+                <h2>JSON的两种格式</h2>
+                
+                <h3>1. 对象格式</h3>
+                <div class="code-block">
+                    <code>{"key1": obj, "key2": obj, "key3": obj...}</code>
+                </div>
+                <p>例如，用户对象用JSON表示：</p>
+                <div class="code-block">
+                    <code>{"username": "zhangsan", "age": 28, "password": "123", "addr": "北京"}</code>
+                </div>
+
+                <h3>2. 数组/集合格式</h3>
+                <div class="code-block">
+                    <code>[obj, obj, obj...]</code>
+                </div>
+                <p>例如，产品列表用JSON表示：</p>
+                <div class="code-block">
+                    <code>[{"pid": "10", "pname": "小米4C"}, {"pid": "11", "pname": "华为P50"}, {"pid": "12", "pname": "iPhone 14"}]</code>
+                </div>
+
+                <h2>JSON的重要特性</h2>
+                <ul>
+                    <li><strong>对象用{}括起来</strong> - JSON中的对象使用大括号包裹</li>
+                    <li><strong>集合用[]括起来</strong> - JSON中的数组使用中括号包裹</li>
+                    <li><strong>可以互相嵌套</strong> - 对象格式和数组格式可以相互嵌套，一个对象中的属性可以是一个集合或数组</li>
+                    <li><strong>Key是字符串</strong> - JSON中的键名必须是字符串</li>
+                    <li><strong>Value是Object</strong> - JSON中的值可以是任意类型</li>
+                </ul>
+
+                <h2>在JavaScript中使用JSON</h2>
+                <p>由于JSON是JS的原生内容，我们可以直接通过对象点号的方式来获取属性值：</p>
+                <div class="code-block">
+                    <code>var person = {"name": "张三", "age": 25};</code><br>
+                    <code>console.log(person.name); // 输出: 张三</code>
+                </div>
+                
+                <p>访问嵌套对象：</p>
+                <div class="code-block">
+                    <code>var json = {"user": {"address": {"city": "北京"}}};</code><br>
+                    <code>console.log(json.user.address.city); // 输出: 北京</code>
+                </div>
+
+                <p>访问数组：</p>
+                <div class="code-block">
+                    <code>var users = [{"name": "张三"}, {"name": "李四"}];</code><br>
+                    <code>console.log(users[0].name); // 输出: 张三</code>
+                </div>
+
+                <div class="article-nav">
+                    <a href="what-is-json.html" class="btn btn-secondary">← 什么是JSON</a>
+                    <a href="protobuf.html" class="btn btn-primary">Protobuf编码详解 →</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 JSON工具. All rights reserved.</p>
+    </footer>
+
+    <script src="../main.js"></script>
+</body>
+</html>

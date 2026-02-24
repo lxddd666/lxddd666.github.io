@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPG vs PNG：如何选择正确的图片格式 - 学习中心</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .article-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.8;
+        }
+        .article-content h1 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+        .article-content h2 {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem 0;
+            color: var(--dark-color);
+        }
+        .article-content h3 {
+            font-size: 1.2rem;
+            margin: 1.5rem 0 0.5rem 0;
+            color: var(--dark-color);
+        }
+        .article-content p {
+            margin: 0.8rem 0;
+            color: var(--text-color);
+        }
+        .article-content ul, .article-content ol {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        .article-content li {
+            margin: 0.5rem 0;
+        }
+        .article-content a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .article-content a:hover {
+            text-decoration: underline;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .comparison-table th {
+            background: var(--primary-color);
+            color: white;
+        }
+        .comparison-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="../index.html">JSON & M3U8 Tools</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html">JSON格式化</a></li>
+                <li><a href="../m3u8.html">m3u8转MP4</a></li>
+                <li><a href="../study.html">学习中心</a></li>
+                <li><a href="../about.html">关于</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="article-content">
+            <a href="../study.html" class="back-link">← 返回学习中心</a>
+            
+            <h1>JPG vs PNG：如何选择正确的图片格式</h1>
+
+            <p>JPEG和PNG是数字Web图形中最常用的两种格式，但它们并不完全相同。了解每种图片格式的特点可以帮助你做出更好的Web设计决策。JPG适合照片，文件更小；而PNG能提供原始、清晰的质量，非常适合标志和细节丰富的图像（如线条图）。</p>
+
+            <h2>什么是JPG？</h2>
+            <p>JPG全称Joint Photographic Experts Group，是一种广泛被数字摄影师使用的文件类型。它于1992年开发，当时互联网刚刚起步，传输速度较慢。JPG使用压缩算法来减小大文件的体积，以便更快地在互联网上传输。JPG还有另一个主要优势：占用更少的硬盘空间。</p>
+            <p>JPG和JPEG是这种格式的两种常见命名约定——作为文件扩展名使用——但两者之间没有区别。</p>
+
+            <h2>什么是PNG？</h2>
+            <p>PNG全称Portable Network Graphics，是一种为Web图形、标志、图表和插图设计的文件格式。PNG文件创建于1994年，作为GIF（Graphics Interchange Format）的替代方案。</p>
+            <p>PNG使用无损压缩来减小文件体积。所有图像数据在压缩过程中都会被保留，即使经过多次编辑也能保持图像质量。PNG格式还支持透明背景，这是JPG无法做到的功能。</p>
+
+            <h2>RGB与CMYK颜色模式</h2>
+            <p>RGB是用于数字显示的"红绿蓝"颜色模型。CMYK是适合四色印刷过程的颜色模式，代表"青色、品红、黄色和黑色"。准确的CMYK颜色匹配对于打印高质量图像至关重要。</p>
+            <p>虽然PNG和JPEG文件都支持RGB，但都不支持CMYK。这意味着这两种格式最适合数字显示器上的Web图像，而不是印刷媒体。</p>
+
+            <h2>JPG与PNG的主要区别</h2>
+
+            <table class="comparison-table">
+                <tr>
+                    <th>特性</th>
+                    <th>JPG</th>
+                    <th>PNG</th>
+                </tr>
+                <tr>
+                    <td><strong>压缩方式</strong></td>
+                    <td>有损压缩</td>
+                    <td>无损压缩</td>
+                </tr>
+                <tr>
+                    <td><strong>文件大小</strong></td>
+                    <td>较小</td>
+                    <td>较大</td>
+                </tr>
+                <tr>
+                    <td><strong>透明度支持</strong></td>
+                    <td>不支持</td>
+                    <td>支持</td>
+                </tr>
+                <tr>
+                    <td><strong>动画支持</strong></td>
+                    <td>不支持</td>
+                    <td>支持APNG</td>
+                </tr>
+                <tr>
+                    <td><strong>适用场景</strong></td>
+                    <td>照片、复杂图像</td>
+                    <td>标志、图标、线条图</td>
+                </tr>
+            </table>
+
+            <h2>有损压缩与无损压缩</h2>
+
+            <h3>有损压缩（JPG）</h3>
+            <p>JPG文件使用有损压缩方法，部分图像数据被丢弃以减小文件体积，同时尽可能保持图像完整性。这可能导致图像质量随时间下降，特别是经过多次编辑时。</p>
+            <p>当你将较小的JPG图像调整到较大尺寸时，就能看到这种影响。JPEG压缩过程对照片效果很好，但对于具有锐利线条和文字标志的图像文件有缺点。</p>
+
+            <h3>无损压缩（PNG）</h3>
+            <p>PNG使用无损压缩，在压缩过程中保留所有图像数据，无论同一图像被编辑或保存多少次都能保持图像质量。如果你需要保持图像的清晰度，PNG是一个很好的选择。</p>
+
+            <h2>文件大小</h2>
+            <p>JPG非常擅长减小文件体积，使其成为快速加载时间至关重要的Web浏览器的理想选择。它们在硬盘上也占用更少空间。PNG由于其无损压缩算法，通常会产生较大的文件大小，这可能会对加载时间产生一定影响。</p>
+
+            <h2>透明度</h2>
+            <p>透明度是一种效果，其中图像中的背景颜色被指定为不可见，从而在图像放置在网页背景上时实现透明效果。PNG格式支持透明度，但JPG文件不支持。这一因素使PNG成为标志设计、图标和其他需要平滑叠加在不同背景上的Web设计元素的更好选择。</p>
+
+            <h2>动画支持</h2>
+            <p>动画GIF是早期计算机时代的图像格式之一，至今仍因表情包而流行。JPG不是有效的替代品，因为它们不支持动画。PNG文件本身也不固有支持动画。但有Animated Portable Network Graphics（APNG）扩展支持高质量、无损动画，具有完整颜色和透明度。</p>
+
+            <h2>如何选择正确的格式？</h2>
+
+            <h3>选择JPG的情况：</h3>
+            <ul>
+                <li>照片和色彩丰富的图像</li>
+                <li>需要较小文件大小的Web图像</li>
+                <li>存储空间有限</li>
+                <li>不需要透明度</li>
+                <li>图像不需要频繁编辑</li>
+            </ul>
+
+            <h3>选择PNG的情况：</h3>
+            <ul>
+                <li>标志、图标和Logo</li>
+                <li>需要透明背景的图像</li>
+                <li>线条图和文字图像</li>
+                <li>需要保持图像细节的图像</li>
+                <li>需要多次编辑的图像</li>
+                <li>打印输出</li>
+            </ul>
+
+            <h2>新兴格式：WebP和AVIF</h2>
+            <p>除了JPG和PNG，还有一些新兴的图片格式值得关注：</p>
+            <ul>
+                <li><strong>WebP</strong>：Google开发的现代图像格式，同时支持有损和无损压缩，通常比JPG和PNG有更好的压缩效果</li>
+                <li><strong>AVIF</strong>：基于AV1视频编解码器的图像格式，提供卓越的压缩效果和高质量</li>
+            </ul>
+            <p>这些新格式兼具高效压缩与质量，但兼容性不如JPG和PNG。</p>
+
+            <h2>总结</h2>
+            <p>选择JPG还是PNG取决于你的具体需求。如果你需要较小的文件大小且对细微的画质损失不敏感，JPG是不错的选择；如果你需要保持图像质量和细节，尤其是在处理线条图、logo等图片时，PNG是更理想的选择。</p>
+            <p>在实际操作中，你需要根据图片内容和用途权衡利弊，才能做出最佳选择。</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 JSON & M3U8 Tools. All rights reserved.</p>
+    </footer>
+</body>
+</html>

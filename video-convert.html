@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频转换 - JSON工具</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">JSON工具</div>
+            <ul class="nav-links">
+                <li><a href="index.html">JSON格式化</a></li>
+                <li><a href="compress.html">图片压缩</a></li>
+                <li><a href="convert.html">图片转换</a></li>
+                <li><a href="video-convert.html" class="active">视频转换</a></li>
+                <li><a href="m3u8.html">m3u8转MP4</a></li>
+                <li><a href="help.html">帮助中心</a></li>
+                <li><a href="about.html">关于</a></li>
+                <li><a href="privacy.html">隐私政策</a></li>
+                <li><a href="study.html">学习中心</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="tool-header">
+            <h1>视频转换</h1>
+            <p>在线视频格式转换工具，支持多种视频格式互转</p>
+        </div>
+
+        <div class="tool-content">
+            <div class="format-selector">
+                <label for="videoOutputFormat">输出格式：</label>
+                <select id="videoOutputFormat">
+                    <option value="video/mp4">MP4</option>
+                    <option value="video/webm">WebM</option>
+                    <option value="video/avi">AVI</option>
+                    <option value="video/quicktime">MOV</option>
+                    <option value="video/x-matroska">MKV</option>
+                </select>
+            </div>
+
+            <div class="upload-section" id="videoConvertUploadSection">
+                <div class="upload-area" id="videoConvertUploadArea">
+                    <div class="upload-icon">🎥</div>
+                    <p>点击选择视频或拖拽视频到这里</p>
+                    <p class="upload-hint">支持 MP4, WebM, AVI, MOV, MKV 格式</p>
+                    <input type="file" id="videoConvertFileInput" accept="video/mp4,video/webm,video/avi,video/quicktime,video/x-matroska" multiple hidden>
+                </div>
+            </div>
+
+            <div class="selected-files" id="videoConvertSelectedFiles" style="display: none;">
+                <div class="files-header">
+                    <h3>已选择 <span id="videoConvertSelectedCount">0</span> 个视频</h3>
+                    <button onclick="addMoreVideoFiles()" class="btn btn-secondary">+ 添加更多</button>
+                </div>
+                <div class="file-grid" id="videoConvertFileGrid"></div>
+                <div class="convert-actions">
+                    <button onclick="convertVideos()" class="btn btn-primary">开始转换</button>
+                    <button onclick="resetVideoConvert()" class="btn btn-danger">清空全部</button>
+                </div>
+            </div>
+
+            <div class="progress-container" id="videoConvertProgress" style="display: none;">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="videoConvertProgressFill"></div>
+                </div>
+                <p class="progress-text" id="videoConvertProgressText">正在转换中... 0%</p>
+            </div>
+
+            <div class="convert-result" id="videoConvertResult" style="display: none;">
+                <h3>转换完成！</h3>
+                <div class="result-list" id="videoConvertResultList"></div>
+                <div class="btn-group-center">
+                    <button onclick="downloadAllVideos()" class="btn btn-primary">下载全部</button>
+                    <button onclick="resetVideoConvert()" class="btn btn-secondary">继续转换</button>
+                </div>
+            </div>
+
+            <div id="videoConvertErrorMsg" class="error-message"></div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 JSON工具. All rights reserved.</p>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

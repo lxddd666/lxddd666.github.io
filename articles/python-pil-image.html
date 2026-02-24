@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python图像库PIL的类Image及其方法介绍 - JSON学习中心</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">JSON工具</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">JSON格式化</a></li>
+                <li><a href="../compress.html">图片压缩</a></li>
+                <li><a href="../convert.html">图片转换</a></li>
+                <li><a href="../video-convert.html">视频转换</a></li>
+                <li><a href="../m3u8.html">m3u8转MP4</a></li>
+                <li><a href="../help.html">帮助中心</a></li>
+                <li><a href="../about.html">关于</a></li>
+                <li><a href="../privacy.html">隐私政策</a></li>
+                <li><a href="../study.html" class="active">学习中心</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="tool-header">
+            <h1>Python图像库PIL的类Image及其方法介绍</h1>
+            <p>Pillow库Image类详细使用指南</p>
+        </div>
+
+        <div class="tool-content">
+            <div class="article-content">
+                <h2>一、安装Pillow库</h2>
+                <p>首先，你需要安装Pillow库。你可以使用pip命令来安装：</p>
+                <div class="code-block">
+                    <code>pip install pillow</code>
+                </div>
+                <p>Pillow库安装成功后，导包时要用PIL来导入，而不能用pillow或Pillow。</p>
+
+                <h2>二、导入Pillow库</h2>
+                <div class="code-block">
+                    <code>from PIL import Image</code>
+                </div>
+
+                <h2>三、打开图像文件</h2>
+                <p>使用Pillow库打开图像文件非常简单，可以使用Image类的open()方法打开图像文件。</p>
+                <div class="code-block">
+                    <code>from PIL import Image
+
+img = Image.open('example.jpg')
+img.show()</code>
+                </div>
+
+                <h2>四、Image类的常用属性</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>属性</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>img.format</td>
+                            <td>图像格式（如JPEG、PNG等）</td>
+                        </tr>
+                        <tr>
+                            <td>img.mode</td>
+                            <td>图像模式（如RGB、RGBA、L等）</td>
+                        </tr>
+                        <tr>
+                            <td>img.size</td>
+                            <td>图像尺寸（宽度，高度）</td>
+                        </tr>
+                        <tr>
+                            <td>img.width</td>
+                            <td>图像宽度</td>
+                        </tr>
+                        <tr>
+                            <td>img.height</td>
+                            <td>图像高度</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>五、创建新图像</h2>
+                <div class="code-block">
+                    <code>from PIL import Image
+
+# 创建一张新图片
+new_img = Image.new('RGB', (800, 600), color=(255, 0, 0))</code>
+                </div>
+                <p>参数说明：模式(RGB/RGBA)、尺寸(宽,高)、颜色</p>
+
+                <h2>六、图像编辑方法</h2>
+                
+                <h3>1. 裁剪图像 - crop()</h3>
+                <div class="code-block">
+                    <code># 裁剪图像 (左, 上, 右, 下)
+cropped_img = img.crop((100, 100, 400, 400))</code>
+                </div>
+
+                <h3>2. 调整图像大小 - resize()</h3>
+                <div class="code-block">
+                    <code># 调整图像大小
+resized_img = img.resize((800, 600))</code>
+                </div>
+
+                <h3>3. 旋转图像 - rotate()</h3>
+                <div class="code-block">
+                    <code># 旋转图像（逆时针角度）
+rotated_img = img.rotate(45)</code>
+                </div>
+
+                <h3>4. 翻转图像 - transpose()</h3>
+                <div class="code-block">
+                    <code>from PIL import ImageFlip
+
+# 水平翻转
+flipped_img = img.transpose(Image.FLIP_LEFT_RIGHT)
+# 垂直翻转
+flipped_img = img.transpose(Image.FLIP_TOP_BOTTOM)</code>
+                </div>
+
+                <h3>5. 转换图像模式 - convert()</h3>
+                <div class="code-block">
+                    <code># 转换为灰度图
+gray_img = img.convert('L')
+# 转换为RGBA
+rgba_img = img.convert('RGBA')</code>
+                </div>
+
+                <h3>6. 调整亮度/对比度 - ImageEnhance</h3>
+                <div class="code-block">
+                    <code>from PIL import ImageEnhance
+
+# 调整亮度
+enhancer = ImageEnhance.Brightness(img)
+bright_img = enhancer.enhance(1.5)  # 增加50%亮度
+
+# 调整对比度
+enhancer = ImageEnhance.Contrast(img)
+contrast_img = enhancer.enhance(1.5)</code>
+                </div>
+
+                <h3>7. 模糊效果 - ImageFilter</h3>
+                <div class="code-block">
+                    <code>from PIL import ImageFilter
+
+# 高斯模糊
+blurred_img = img.filter(ImageFilter.GaussianBlur(radius=5))
+
+# 锐化
+sharpened_img = img.filter(ImageFilter.SHARPEN)</code>
+                </div>
+
+                <h2>七、图像保存</h2>
+                <div class="code-block">
+                    <code># 保存图像
+img.save('output.jpg')
+# 指定格式保存
+img.save('output.png', 'PNG')</code>
+                </div>
+
+                <h2>八、图像通道操作</h2>
+                
+                <h3>1. 分离通道</h3>
+                <div class="code-block">
+                    <code>r, g, b = img.split()</code>
+                </div>
+
+                <h3>2. 合并通道</h3>
+                <div class="code-block">
+                    <code>merged_img = Image.merge('RGB', (r, g, b))</code>
+                </div>
+
+                <h2>九、获取像素值</h2>
+                <div class="code-block">
+                    <code># 获取单个像素值
+pixel = img.getpixel((100, 100))
+
+# 获取所有像素值
+pixels = list(img.getdata())</code>
+                </div>
+
+                <h2>十、总结</h2>
+                <p>Pillow是Python中最常用的图像处理库，提供了广泛的文件格式支持、强大的图像处理能力，包括图像储存、图像显示、格式转换以及基本的图像处理功能。Image类是PIL库中一个非常重要的类，用于表示和操作图像对象。熟练掌握这些方法可以大大提高图像处理的效率。</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 JSON工具. All rights reserved.</p>
+    </footer>
+</body>
+</html>

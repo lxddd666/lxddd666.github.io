@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用FFmpeg下载m3u8格式视频 - JSON学习中心</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">JSON工具</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">JSON格式化</a></li>
+                <li><a href="../compress.html">图片压缩</a></li>
+                <li><a href="../convert.html">图片转换</a></li>
+                <li><a href="../video-convert.html">视频转换</a></li>
+                <li><a href="../m3u8.html">m3u8转MP4</a></li>
+                <li><a href="../help.html">帮助中心</a></li>
+                <li><a href="../about.html">关于</a></li>
+                <li><a href="../privacy.html">隐私政策</a></li>
+                <li><a href="../study.html" class="active">学习中心</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="tool-header">
+            <h1>使用FFmpeg下载m3u8格式视频</h1>
+            <p>完整指南：如何下载和转换m3u8视频</p>
+        </div>
+
+        <div class="tool-content">
+            <div class="article-content">
+                <h2>一、m3u8视频简介</h2>
+                <p>m3u8是基于HLS（HTTP Live Streaming）协议的视频格式，由苹果公司开发。它将视频分成多个小片段（.ts文件），通过m3u8索引文件进行管理。这种方式可以实现自适应码率，让视频在不同网络环境下都能流畅播放。</p>
+
+                <h2>二、准备工作</h2>
+                
+                <h3>1. 安装FFmpeg</h3>
+                <div class="code-block">
+                    <code># macOS
+brew install ffmpeg
+
+# Ubuntu/Debian
+sudo apt install ffmpeg
+
+# Windows
+# 访问 https://ffmpeg.org/download.html 下载并配置环境变量</code>
+                </div>
+
+                <h3>2. 验证安装</h3>
+                <div class="code-block">
+                    <code>ffmpeg -version</code>
+                </div>
+
+                <h2>三、下载m3u8视频的方法</h2>
+                
+                <h3>方法一：直接下载（推荐）</h3>
+                <div class="code-block">
+                    <code># 直接下载m3u8视频并转换为MP4
+ffmpeg -i "https://example.com/video.m3u8" -c copy -bsf:a aac_adtstoasc output.mp4</code>
+                </div>
+
+                <h3>方法二：下载加密的m3u8</h3>
+                <div class="code-block">
+                    <code># 如果m3u8有密钥加密，需要提供密钥
+ffmpeg -i "https://example.com/encrypted.m3u8" 
+       -encryption-key "your-key-here" 
+       -c copy output.mp4</code>
+                </div>
+
+                <h3>方法三：下载后合并</h3>
+                <div class="code-block">
+                    <code># 步骤1：下载所有ts片段
+# 使用yt-dlp或其他工具下载ts片段
+
+# 步骤2：合并ts文件
+ffmpeg -i "concat:seg1.ts|seg2.ts|seg3.ts" -c copy output.mp4</code>
+                </div>
+
+                <h3>方法四：使用FFmpeg下载并转换格式</h3>
+                <div class="code-block">
+                    <code># 下载并转换为不同格式
+ffmpeg -i "https://example.com/video.m3u8" 
+       -c:v libx264 -c:a aac 
+       -strict experimental 
+       output.mp4
+
+# 转换为AVI
+ffmpeg -i "https://example.com/video.m3u8" output.avi
+
+# 转换为MOV
+ffmpeg -i "https://example.com/video.m3u8" output.mov</code>
+                </div>
+
+                <h2>四、常用参数说明</h2>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>参数</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>-i</td>
+                            <td>输入文件URL</td>
+                        </tr>
+                        <tr>
+                            <td>-c copy</td>
+                            <td>直接复制流，不重新编码</td>
+                        </tr>
+                        <tr>
+                            <td>-bsf:a</td>
+                            <td>音频位流过滤器</td>
+                        </tr>
+                        <tr>
+                            <td>-c:v</td>
+                            <td>视频编码器</td>
+                        </tr>
+                        <tr>
+                            <td>-c:a</td>
+                            <td>音频编码器</td>
+                        </tr>
+                        <tr>
+                            <td>-ss</td>
+                            <td>开始时间</td>
+                        </tr>
+                        <tr>
+                            <td>-t</td>
+                            <td>持续时间</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>五、下载m3u8的步骤详解</h2>
+                
+                <h3>步骤1：获取m3u8链接</h3>
+                <p>在视频网站按F12打开开发者工具，切换到Network（网络）标签，刷新页面，搜索".m3u8"，找到视频的m3u8链接。</p>
+
+                <h3>步骤2：下载视频</h3>
+                <div class="code-block">
+                    <code>ffmpeg -i "你的m3u8链接" -c copy output.mp4</code>
+                </div>
+
+                <h3>步骤3：处理常见问题</h3>
+                <ul>
+                    <li>如果下载失败，尝试添加-user-agent参数</li>
+                    <li>如果视频加密，需要获取密钥</li>
+                    <li>如果需要指定referer，添加-referer参数</li>
+                </ul>
+
+                <h2>六、使用第三方工具（推荐）</h2>
+                
+                <h3>1. yt-dlp（推荐）</h3>
+                <div class="code-block">
+                    <code># 安装yt-dlp
+pip install yt-dlp
+
+# 下载m3u8视频
+yt-dlp "https://example.com/video.m3u8"
+
+# 下载并转换为MP4
+yt-dlp -f "bestvideo+bestaudio/best" --merge-output-format mp4 "url"</code>
+                </div>
+
+                <h3>2. ffmpeg-python</h3>
+                <div class="code-block">
+                    <code># 安装
+pip install ffmpeg-python
+
+# 使用Python下载
+import ffmpeg
+
+stream = ffmpeg.input('https://example.com/video.m3u8')
+stream = ffmpeg.output(stream, 'output.mp4', c='copy')
+ffmpeg.run(stream)</code>
+                </div>
+
+                <h2>七、注意事项</h2>
+                <ul>
+                    <li>确保有稳定的网络连接</li>
+                    <li>部分m3u8视频有加密保护，需要相应密钥</li>
+                    <li>下载视频请遵守版权法规</li>
+                    <li>建议使用-c copy参数保持原始质量</li>
+                </ul>
+
+                <h2>八、总结</h2>
+                <p>FFmpeg是下载m3u8视频的强大工具。通过简单的命令就可以将m3u8视频下载并转换为其他格式。掌握这些技巧，可以方便地保存和转换各种流媒体视频。</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 JSON工具. All rights reserved.</p>
+    </footer>
+</body>
+</html>

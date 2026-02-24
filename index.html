@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON格式化工具</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">JSON工具</div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">JSON格式化</a></li>
+                <li><a href="compress.html">图片压缩</a></li>
+                <li><a href="convert.html">图片转换</a></li>
+                <li><a href="video-convert.html">视频转换</a></li>
+                <li><a href="m3u8.html">m3u8转MP4</a></li>
+                <li><a href="help.html">帮助中心</a></li>
+                <li><a href="about.html">关于</a></li>
+                <li><a href="privacy.html">隐私政策</a></li>
+                <li><a href="study.html">学习中心</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="tool-header">
+            <h1>JSON格式化工具</h1>
+            <p>在线JSON格式化、压缩、校验工具</p>
+        </div>
+
+        <div class="tool-content">
+            <div class="input-section">
+                <div class="section-header">
+                    <span>输入JSON</span>
+                    <div class="btn-group">
+                        <button onclick="formatJson()" class="btn btn-primary">格式化</button>
+                        <button onclick="compressJson()" class="btn btn-secondary">压缩</button>
+                        <button onclick="clearInput()" class="btn btn-danger">清空</button>
+                    </div>
+                </div>
+                <textarea id="jsonInput" placeholder="请输入JSON字符串..."></textarea>
+            </div>
+
+            <div class="output-section">
+                <div class="section-header">
+                    <span>输出结果</span>
+                    <div class="btn-group">
+                        <button onclick="copyOutput()" class="btn btn-primary">复制</button>
+                    </div>
+                </div>
+                <textarea id="jsonOutput" placeholder="格式化后的结果..." readonly></textarea>
+            </div>
+
+            <div id="errorMsg" class="error-message"></div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 JSON工具. All rights reserved.</p>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

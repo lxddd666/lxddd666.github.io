@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用FFmpeg剪辑视频的详细指南 - JSON学习中心</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">JSON工具</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">JSON格式化</a></li>
+                <li><a href="../compress.html">图片压缩</a></li>
+                <li><a href="../convert.html">图片转换</a></li>
+                <li><a href="../video-convert.html">视频转换</a></li>
+                <li><a href="../m3u8.html">m3u8转MP4</a></li>
+                <li><a href="../help.html">帮助中心</a></li>
+                <li><a href="../about.html">关于</a></li>
+                <li><a href="../privacy.html">隐私政策</a></li>
+                <li><a href="../study.html" class="active">学习中心</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="tool-header">
+            <h1>使用FFmpeg剪辑视频的详细指南</h1>
+            <p>掌握FFmpeg进行视频剪辑、合并、转码等操作</p>
+        </div>
+
+        <div class="tool-content">
+            <div class="article-content">
+                <h2>一、FFmpeg简介</h2>
+                <p>FFmpeg是一个功能强大的多媒体处理工具，支持视频剪辑、视频转码、视频编辑、音频处理、添加文字、视频拼接、拉流推流直播等功能。通过不同的FFmpeg命令可以编程完成不同的视频剪辑功能。</p>
+
+                <h2>二、FFmpeg安装</h2>
+                <div class="code-block">
+                    <code># macOS系统
+brew install ffmpeg
+
+# Ubuntu/Debian系统
+sudo apt install ffmpeg
+
+# Windows系统
+# 直接去 ffmpeg.org 下载安装包，解压后配置环境变量</code>
+                </div>
+
+                <h2>三、FFmpeg核心逻辑</h2>
+                <p>FFmpeg的核心逻辑只有一个：输入→处理→输出</p>
+                <div class="code-block">
+                    <code>ffmpeg [输入选项] -i input.mp4 [输出选项] output.mp4</code>
+                </div>
+
+                <h2>四、常见视频剪辑场景</h2>
+                
+                <h3>1. 视频转码</h3>
+                <div class="code-block">
+                    <code># 将MOV视频转成MP4视频
+ffmpeg -i input.mov output.mp4
+
+# 修改帧率为24
+ffmpeg -i input.mp4 -r 24 -an output.mp4
+
+# 指定视频编码
+ffmpeg -i input.mp4 -c:v libx264 -c:a aac output.mp4</code>
+                </div>
+
+                <h3>2. 视频裁剪（剪辑）</h3>
+                <div class="code-block">
+                    <code># 从第10秒开始，截取20秒
+ffmpeg -ss 00:00:10 -i input.mp4 -t 00:00:20 -c copy output.mp4
+
+# 从第1分10秒开始，截取20秒
+ffmpeg -ss 00:01:10 -i input.mp4 -t 00:00:20 output.mp4
+
+# 使用更精确的裁剪（重新编码）
+ffmpeg -ss 00:00:10 -i input.mp4 -t 00:00:20 -c:v libx264 -c:a aac output.mp4</code>
+                </div>
+
+                <h3>3. 视频缩放</h3>
+                <div class="code-block">
+                    <code># 将视频变为480x360
+ffmpeg -i input.mp4 -vf scale=480:360 output.mp4
+
+# 保持宽高比缩放
+ffmpeg -i input.mp4 -vf scale=-1:360 output.mp4</code>
+                </div>
+
+                <h3>4. 视频拼接</h3>
+                <div class="code-block">
+                    <code># 方法1：使用concat demuxer
+# 先创建文件列表
+# file 'part1.mp4'
+# file 'part2.mp4'
+# file 'part3.mp4'
+ffmpeg -f concat -safe 0 -i filelist.txt -c copy output.mp4
+
+# 方法2：使用concat filter
+ffmpeg -i part1.mp4 -i part2.mp4 -filter_complex "[0:v][1:v]concat=n=2:v=1:a=1" output.mp4</code>
+                </div>
+
+                <h3>5. 提取音频</h3>
+                <div class="code-block">
+                    <code># 提取音频为MP3
+ffmpeg -i input.mp4 -vn -acodec libmp3lame output.mp3
+
+# 提取音频为AAC
+ffmpeg -i input.mp4 -vn -acodec aac output.aac</code>
+                </div>
+
+                <h3>6. 添加水印</h3>
+                <div class="code-block">
+                    <code># 添加文字水印
+ffmpeg -i input.mp4 -vf "drawtext=text=' watermark ':fontcolor=white:fontsize=24:x=10:y=10" output.mp4
+
+# 添加图片水印
+ffmpeg -i input.mp4 -i logo.png -filter_complex "overlay=10:10" output.mp4</code>
+                </div>
+
+                <h3>7. 视频加速/减速</h3>
+                <div class="code-block">
+                    <code># 视频加速2倍
+ffmpeg -i input.mp4 -vf "setpts=0.5*PTS" output.mp4
+
+# 视频减速2倍
+ffmpeg -i input.mp4 -vf "setpts=2*PTS" output.mp4
+
+# 同时加速视频和音频
+ffmpeg -i input.mp4 -vf "setpts=0.5*PTS" -af "atempo=2" output.mp4</code>
+                </div>
+
+                <h3>8. 视频旋转</h3>
+                <div class="code-block">
+                    <code># 顺时针旋转90度
+ffmpeg -i input.mp4 -vf "transpose=1" output.mp4
+
+# 旋转180度
+ffmpeg -i input.mp4 -vf "transpose=2,transpose=2" output.mp4</code>
+                </div>
+
+                <h3>9. 视频转GIF</h3>
+                <div class="code-block">
+                    <code># 视频转GIF
+ffmpeg -i input.mp4 -vf "fps=10,scale=320:-1" output.gif
+
+# 高质量GIF
+ffmpeg -i input.mp4 -vf "fps=15,scale=480:-1:flags=lanczos" output.gif</code>
+                </div>
+
+                <h3>10. 视频转HLS(m3u8)</h3>
+                <div class="code-block">
+                    <code># 将MP4转为m3u8
+ffmpeg -i input.mp4 -codec: copy -bsf:v h264_mp4toannexb -start_number 0 -hls_time 10 -hls_list_size 0 -f hls output.m3u8</code>
+                </div>
+
+                <h2>五、常用参数说明</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>参数</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>-i</td>
+                            <td>输入文件</td>
+                        </tr>
+                        <tr>
+                            <td>-c</td>
+                            <td>编解码器 (copy表示复制)</td>
+                        </tr>
+                        <tr>
+                            <td>-ss</td>
+                            <td>开始时间</td>
+                        </tr>
+                        <tr>
+                            <td>-t</td>
+                            <td>持续时间</td>
+                        </tr>
+                        <tr>
+                            <td>-vf</td>
+                            <td>视频滤镜</td>
+                        </tr>
+                        <tr>
+                            <td>-af</td>
+                            <td>音频滤镜</td>
+                        </tr>
+                        <tr>
+                            <td>-r</td>
+                            <td>帧率</td>
+                        </tr>
+                        <tr>
+                            <td>-s</td>
+                            <td>分辨率</td>
+                        </tr>
+                        <tr>
+                            <td>-b</td>
+                            <td>比特率</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>六、Python中使用FFmpeg</h2>
+                <div class="code-block">
+                    <code>import subprocess
+
+def convert_video(input_file, output_file, codec='libx264'):
+    cmd = [
+        'ffmpeg', '-i', input_file,
+        '-c:v', codec, '-c:a', 'aac',
+        output_file
+    ]
+    subprocess.run(cmd)
+
+# 使用示例
+convert_video('input.mov', 'output.mp4')</code>
+                </div>
+
+                <h2>七、总结</h2>
+                <p>FFmpeg是目前全球最通用、最稳定、支持格式最全面的视频音频处理工具。几乎所有剪辑软件、播放器、直播平台底层都在用它。掌握FFmpeg的各种命令，可以满足日常视频处理的大部分需求。</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 JSON工具. All rights reserved.</p>
+    </footer>
+</body>
+</html>

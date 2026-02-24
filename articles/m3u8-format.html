@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>m3u8文件格式详解 - JSON学习中心</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">JSON工具</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">JSON格式化</a></li>
+                <li><a href="../compress.html">图片压缩</a></li>
+                <li><a href="../convert.html">图片转换</a></li>
+                <li><a href="../video-convert.html">视频转换</a></li>
+                <li><a href="../m3u8.html">m3u8转MP4</a></li>
+                <li><a href="../help.html">帮助中心</a></li>
+                <li><a href="../about.html">关于</a></li>
+                <li><a href="../privacy.html">隐私政策</a></li>
+                <li><a href="../study.html" class="active">学习中心</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="tool-header">
+            <h1>m3u8文件格式详解</h1>
+            <p>深入理解HLS协议与m3u8格式</p>
+        </div>
+
+        <div class="tool-content">
+            <div class="article-content">
+                <h2>一、什么是m3u8文件？</h2>
+                <p>m3u8视频格式是一种基于HTTP Live Streaming（HLS）协议的视频文件格式，由苹果公司开发，目前广泛用于iOS、macOS和tvOS等系统中。</p>
+                <p>M3U8是M3U文件的一种，只不过它的编码格式是UTF-8。M3U使用Latin-1字符集编码。M3U的全称是Moving Picture Experts Group Audio Layer 3 Uniform Resource Locator，即mp3 URL。</p>
+
+                <h2>二、HLS协议简介</h2>
+                <p>HLS（HTTP Live Streaming）是苹果公司提出的基于HTTP的流媒体网络传输协议。HLS的工作原理是把整个流分成一个个小的基于HTTP的文件来下载，每次只下载一些。当媒体流正在播放时，客户端可以选择从许多不同的备用源中以不同的速率下载同样的资源，允许流媒体会话适应不同的数据速率。</p>
+
+                <h2>三、m3u8的特点</h2>
+                
+                <h3>1. 适应性更强</h3>
+                <p>可以根据设备或者带宽自动调节视频分辨率和码率，从而提供更好的观看体验。</p>
+
+                <h3>2. 支持多语言字幕</h3>
+                <p>m3u8格式支持多种语言字幕，可以让用户选择他们喜欢的字幕。</p>
+
+                <h3>3. 多平台播放</h3>
+                <p>m3u8可以在不同操作系统的设备上播放，包括iOS和Android手机、Mac和PC电脑等。</p>
+
+                <h3>4. 易于管理</h3>
+                <p>m3u8格式可以通过文本编辑轻松创建和编辑，在需要更新内容时也很容易进行修改。</p>
+
+                <h2>四、m3u8文件类型</h2>
+                
+                <h3>1. 媒体播放列表（Media Playlist）</h3>
+                <p>包含实际的视频片段信息，用于点播或直播。</p>
+
+                <h3>2. 主播放列表（Master Playlist）</h3>
+                <p>包含多个媒体播放列表的索引，用于自适应码率流。</p>
+
+                <h2>五、m3u8文件结构示例</h2>
+                
+                <h3>媒体播放列表示例：</h3>
+                <div class="code-block">
+                    <code>#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-TARGETDURATION:10
+#EXT-X-MEDIA-SEQUENCE:1
+#EXTINF:10.0,
+segment1.ts
+#EXTINF:10.0,
+segment2.ts
+#EXTINF:10.0,
+segment3.ts
+#EXT-X-ENDLIST</code>
+                </div>
+
+                <h3>主播放列表示例：</h3>
+                <div class="code-block">
+                    <code>#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-STREAM-INF:BANDWIDTH=1280000,RESOLUTION=720x480
+video/720p.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=2560000,RESOLUTION=1280x720
+video/1080p.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=5120000,RESOLUTION=1920x1080
+video/4k.m3u8</code>
+                </div>
+
+                <h2>六、m3u8标签详解</h2>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>标签</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#EXTM3U</td>
+                            <td>文件头部，必须放在第一行</td>
+                        </tr>
+                        <tr>
+                            <td>#EXT-X-VERSION</td>
+                            <td>HLS协议版本</td>
+                        </tr>
+                        <tr>
+                            <td>#EXT-X-TARGETDURATION</td>
+                            <td>最大片段时长（秒）</td>
+                        </tr>
+                        <tr>
+                            <td>#EXTINF</td>
+                            <td>片段时长信息</td>
+                        </tr>
+                        <tr>
+                            <td>#EXT-X-MEDIA-SEQUENCE</td>
+                            <td>第一个片段的序列号</td>
+                        </tr>
+                        <tr>
+                            <td>#EXT-X-ENDLIST</td>
+                            <td>播放列表结束标记</td>
+                        </tr>
+                        <tr>
+                            <td>#EXT-X-STREAM-INF</td>
+                            <td>自适应码率信息</td>
+                        </tr>
+                        <tr>
+                            <td>#EXT-X-KEY</td>
+                            <td>加密密钥信息</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>七、m3u8的优缺点</h2>
+                
+                <h3>优点：</h3>
+                <ul>
+                    <li>适应性强，可以根据网络状况自动调节视频质量</li>
+                    <li>支持多语言字幕</li>
+                    <li>多平台兼容</li>
+                    <li>易于创建和管理</li>
+                    <li>可穿越防火墙（使用HTTP）</li>
+                </ul>
+
+                <h3>缺点：</h3>
+                <ul>
+                    <li>依赖网络质量，网络差可能出现卡顿</li>
+                    <li>难以保护版权</li>
+                    <li>需要专业工具支持</li>
+                    <li>首次加载可能有延迟</li>
+                </ul>
+
+                <h2>八、m3u8的使用场景</h2>
+                <ul>
+                    <li>在线视频平台（点播/直播）</li>
+                    <li>远程教育视频</li>
+                    <li>企业培训视频</li>
+                    <li>体育赛事直播</li>
+                    <li>演唱会直播</li>
+                </ul>
+
+                <h2>九、如何播放m3u8视频？</h2>
+                <ul>
+                    <li>VLC媒体播放器</li>
+                    <li>PotPlayer</li>
+                    <li>浏览器（通过hls.js）</li>
+                    <li>移动端APP</li>
+                </ul>
+
+                <h2>十、总结</h2>
+                <p>m3u8格式是现代流媒体领域中一种重要的技术，具有高效、灵活、可扩展等优点。理解m3u8文件的结构和特点，对于视频开发和播放都有重要意义。</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 JSON工具. All rights reserved.</p>
+    </footer>
+</body>
+</html>

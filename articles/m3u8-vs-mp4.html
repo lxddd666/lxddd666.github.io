@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>m3u8与mp4的区别 - JSON学习中心</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">JSON工具</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">JSON格式化</a></li>
+                <li><a href="../compress.html">图片压缩</a></li>
+                <li><a href="../convert.html">图片转换</a></li>
+                <li><a href="../video-convert.html">视频转换</a></li>
+                <li><a href="../m3u8.html">m3u8转MP4</a></li>
+                <li><a href="../help.html">帮助中心</a></li>
+                <li><a href="../about.html">关于</a></li>
+                <li><a href="../privacy.html">隐私政策</a></li>
+                <li><a href="../study.html" class="active">学习中心</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="tool-header">
+            <h1>m3u8与mp4的区别</h1>
+            <p>深入对比两种视频格式的差异与应用场景</p>
+        </div>
+
+        <div class="tool-content">
+            <div class="article-content">
+                <h2>一、格式性质对比</h2>
+                
+                <h3>1. m3u8格式</h3>
+                <p>m3u8是基于HLS（HTTP Live Streaming）协议的播放列表格式，常用于网络视频直播和点播领域。它是一个文本文件，里面记录的是视频流的相关信息，比如视频片段的URL地址。这些URL指向一个个实际的TS视频片段文件。</p>
+
+                <h3>2. MP4格式</h3>
+                <p>MP4是MPEG-4第14部分的标准，是一种非常流行且通用的视频文件格式。它将视频的编码数据、音频数据以及元数据等都打包在一个文件里，具有一套规范的文件结构。</p>
+
+                <h2>二、技术原理差异</h2>
+                
+                <h3>1. m3u8的技术原理</h3>
+                <p>基于HTTP Live Streaming（HLS）协议，m3u8将完整视频拆分为多个.ts格式的小片段，通过索引文件记录片段顺序与URL地址。</p>
+                <ul>
+                    <li>自适应码率：根据网络状况动态切换视频清晰度</li>
+                    <li>传输优化：分片传输降低单文件加载压力</li>
+                    <li>适合弱网：提升弱网环境下的播放稳定性</li>
+                </ul>
+
+                <h3>2. MP4的技术原理</h3>
+                <p>采用ISO标准容器格式，将视频、音频、字幕等数据整合为单一文件。</p>
+                <ul>
+                    <li>高兼容性：支持手机、电脑、智能电视等全平台直接播放</li>
+                    <li>便捷性：可直接导入视频编辑软件进行剪辑</li>
+                    <li>缺点：文件体积较大，网络传输效率低</li>
+                </ul>
+
+                <h2>三、核心特性对比</h2>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>特性</th>
+                            <th>m3u8</th>
+                            <th>MP4</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>文件性质</td>
+                            <td>文本播放列表</td>
+                            <td>完整视频文件</td>
+                        </tr>
+                        <tr>
+                            <td>结构</td>
+                            <td>多个.ts片段+索引文件</td>
+                            <td>单一容器文件</td>
+                        </tr>
+                        <tr>
+                            <td>自适应码率</td>
+                            <td>支持</td>
+                            <td>不支持</td>
+                        </tr>
+                        <tr>
+                            <td>兼容性</td>
+                            <td>需要专用播放器</td>
+                            <td>全平台通用</td>
+                        </tr>
+                        <tr>
+                            <td>网络依赖</td>
+                            <td>需要持续网络</td>
+                            <td>可本地播放</td>
+                        </tr>
+                        <tr>
+                            <td>视频编辑</td>
+                            <td>不便直接编辑</td>
+                            <td>支持各类编辑软件</td>
+                        </tr>
+                        <tr>
+                            <td>文件体积</td>
+                            <td>相对较小</td>
+                            <td>相对较大</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>四、播放与传输特点</h2>
+                
+                <h3>1. m3u8的播放特点</h3>
+                <p>在播放时，播放器会根据m3u8文件中的信息，依次请求并加载对应的TS片段来播放视频。这种方式能灵活适应不同的网络带宽。</p>
+                <ul>
+                    <li>网络好时加载高清片段</li>
+                    <li>网络差时自动切换标清片段</li>
+                    <li>保证播放不卡顿</li>
+                </ul>
+
+                <h3>2. MP4的播放特点</h3>
+                <p>播放器直接读取本地或已下载好的MP4文件进行播放，无需频繁与服务器交互。只要文件完整且设备支持该格式，播放过程相对稳定。</p>
+
+                <h2>五、优缺点对比</h2>
+                
+                <h3>m3u8的优点：</h3>
+                <ul>
+                    <li>自适应码率，播放体验好</li>
+                    <li>分片传输，网络要求低</li>
+                    <li>节省带宽</li>
+                    <li>支持多语言字幕</li>
+                </ul>
+
+                <h3>m3u8的缺点：</h3>
+                <ul>
+                    <li>需要支持HLS的播放器</li>
+                    <li>播放需要网络</li>
+                    <li>版权保护困难</li>
+                </ul>
+
+                <h3>MP4的优点：</h3>
+                <ul>
+                    <li>兼容性强</li>
+                    <li>无需网络即可播放</li>
+                    <li>便于编辑</li>
+                    <li>支持各类设备</li>
+                </ul>
+
+                <h3>MP4的缺点：</h3>
+                <ul>
+                    <li>文件体积大</li>
+                    <td>不支持自适应码率</td>
+                    <li>网络传输效率低</li>
+                </ul>
+
+                <h2>六、使用场景对比</h2>
+                
+                <h3>m3u8适合的场景：</h3>
+                <ul>
+                    <li>在线视频平台（Netflix、YouTube等）</li>
+                    <li>直播平台</li>
+                    <li>网络电视</li>
+                    <li>需要自适应码率的场景</li>
+                </ul>
+
+                <h3>MP4适合的场景：</h3>
+                <ul>
+                    <li>本地视频播放</li>
+                    <li>视频下载保存</li>
+                    <li>视频编辑制作</li>
+                    <li>跨平台视频分享</li>
+                </ul>
+
+                <h2>七、格式转换</h2>
+                
+                <h3>m3u8转MP4：</h3>
+                <div class="code-block">
+                    <code>ffmpeg -i "https://example.com/video.m3u8" -c copy output.mp4</code>
+                </div>
+
+                <h3>MP4转m3u8：</h3>
+                <div class="code-block">
+                    <code>ffmpeg -i input.mp4 -codec: copy -bsf:v h264_mp4toannexb -start_number 0 -hls_time 10 -hls_list_size 0 -f hls output.m3u8</code>
+                </div>
+
+                <h2>八、总结</h2>
+                <p>m3u8与MP4各有优势：前者侧重在线流媒体的传输效率，后者专注本地播放与编辑的便捷性。用户可根据实际需求选择合适的视频格式。</p>
+                <ul>
+                    <li>流媒体传输：选择m3u8</li>
+                    <li>本地存储：选择MP4</li>
+                    <li>视频编辑：选择MP4</li>
+                    <li>网络播放：选择m3u8</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 JSON工具. All rights reserved.</p>
+    </footer>
+</body>
+</html>
